@@ -702,7 +702,7 @@
             renderLine('ARGHYA') + '\n' + renderLine('MALAKAR');
 
         /* ── WEAPON WHEEL ── */
-        const SEC = ['HOME', 'PROJECTS', 'SKILLS', 'EXPERIENCE', 'BLOGS', 'ABOUT'];
+        const SEC = ['HOME', 'PROJECTS', 'SKILLS', 'EXPERIENCE', 'ABOUT'];
         const N = SEC.length, SL = (2 * Math.PI) / N;
         const RO = 128, RI = 88, RL = 108;
         let cur_ = 0, wRot = 0, tRot = 0, raf = null, hot = false, locked = false;
@@ -801,6 +801,10 @@
             }
             if (s === 'EXPERIENCE') {
                 window.location.href = 'experience.html';
+                return;
+            }
+            if (s === 'ABOUT') {
+                window.location.href = 'about.html';
                 return;
             }
             openSection();

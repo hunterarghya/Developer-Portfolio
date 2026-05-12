@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABOUT — ARGHYA MALAKAR</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+
+        :root {
+            --c0: #000;
+            --c1: #001000;
+            --c4: #002020;
+            --c5: #003030;
+            --c7: #104040;
+            --c8: #105050;
+            --c9: #106060;
+            --glow: #00ff99
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            font-family: 'Share Tech Mono', monospace;
+            overflow: hidden;
+            cursor: none
+        }
+
+        /* BG IMAGE */
+        #bg-img {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: url('bgimage.jpeg') center/cover no-repeat;
+            filter: brightness(0.7)
+        }
+
+        #scanlines {
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0, 0, 0, .07) 3px, rgba(0, 0, 0, .07) 4px);
+            pointer-events: none;
+            z-index: 100
+        }
+
+        #vignette {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, .85) 100%);
+            pointer-events: none;
+            z-index: 2
+        }
+
+        #cursor {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border: 1px solid var(--glow);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: screen
+        }
+
+        #cursor-dot {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: var(--glow);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%)
+        }
+
+        .corner {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            pointer-events: none;
+            z-index: 50
+        }
+
+        .corner svg {
+            width: 100%;
+            height: 100%
+        }
+
+        .ctL {
+            top: 18px;
+            left: 18px
+        }
+
+        .ctR {
+            top: 18px;
+            right: 18px;
+            transform: scaleX(-1)
+        }
+
+        .cbL {
+            bottom: 18px;
+            left: 18px;
+            transform: scaleY(-1)
+        }
+
+        .cbR {
+            bottom: 18px;
+            right: 18px;
+            transform: scale(-1)
+        }
+
+        /* SOCIAL ICONS — top right */
+        #socials {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            display: flex;
+            gap: 10px;
+            z-index: 50
+        }
+
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            background: rgba(0, 0, 0, .85);
+            border: 1px solid var(--c4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: border-color .2s, background .2s
+        }
+
+        .social-icon:hover {
+            border-color: var(--glow);
+            background: rgba(0, 26, 10, .9)
+        }
+
+        .social-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--glow)
+        }
+
+        /* ABOUT BOX — right of the centered dial */
+        #about-box {
+            position: fixed;
+            left: calc(50% + 160px);
+            right: 4vw;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, .78);
+            border: 1px solid var(--c4);
+            padding: 22px 28px;
+            z-index: 15;
+            backdrop-filter: blur(4px)
+        }
+
+        #about-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--glow), transparent);
+            opacity: .4
+        }
+
+        #about-heading {
+            font-family: 'VT323', monospace;
+            font-size: 34px;
+            color: var(--glow);
+            letter-spacing: 8px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--c4);
+            padding-bottom: 10px
+        }
+
+        #about-text {
+            font-size: 12px;
+            color: hsl(168, 50%, 45%);
+            line-height: 1.8;
+            letter-spacing: .5px
+        }
+
+        #about-text span.hl {
+            color: var(--glow)
+        }
+
+        /* DIAL — fixed center like all other pages */
+        #dial-wrap {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            width: 260px;
+            height: 260px
+        }
+
+        #wheel-svg {
+            width: 100%;
+            height: 100%;
+            transition: filter .3s, opacity .3s;
+            cursor: none;
+            opacity: .35
+        }
+
+        #wheel-svg.hot {
+            filter: drop-shadow(0 0 14px rgba(0, 255, 128, .22));
+            opacity: .55
+        }
+
+        #wheel-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            z-index: 5
+        }
+
+        #wl-name {
+            font-family: 'VT323', monospace;
+            font-size: 17px;
+            color: var(--glow);
+            letter-spacing: 4px;
+            display: block;
+            min-height: 20px
+        }
+
+        #wl-hint {
+            font-size: 8px;
+            color: var(--c7);
+            letter-spacing: 2px;
+            display: block;
+            margin-top: 3px
+        }
+
+        .wheel-nav {
+            display: none;
+            position: absolute;
+            bottom: -44px;
+            left: 50%;
+            transform: translateX(-50%);
+            gap: 18px;
+            z-index: 25
+        }
+
+        .wheel-nav button {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 18px;
+            color: var(--glow);
+            background: rgba(0, 26, 10, .7);
+            border: 1px solid var(--c7);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        .wheel-nav button:active {
+            background: var(--c5);
+            border-color: var(--glow)
+        }
+
+        /* OVERLAY */
+        #overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .35s
+        }
+
+        #overlay.vis {
+            opacity: 1;
+            pointer-events: all
+        }
+
+        #ov-title {
+            font-family: 'VT323', monospace;
+            font-size: 60px;
+            color: var(--glow);
+            letter-spacing: 12px;
+            margin-bottom: 12px
+        }
+
+        #ov-sub {
+            font-size: 11px;
+            color: var(--c8);
+            letter-spacing: 4px;
+            margin-bottom: 34px
+        }
+
+        #back-btn {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            color: var(--c9);
+            letter-spacing: 3px;
+            border: 1px solid var(--c7);
+            padding: 9px 28px;
+            background: transparent;
+            cursor: pointer
+        }
+
+        #back-btn:hover {
+            background: var(--c4);
+            color: var(--glow);
+            border-color: var(--glow)
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:768px) {
+
+            html,
+            body {
+                overflow-y: auto;
+                overflow-x: hidden;
+                cursor: default
+            }
+
+            #cursor,
+            #cursor-dot,
+            #vignette,
+            .corner {
+                display: none
+            }
+
+            #bg-img {
+                position: fixed;
+                height: 100vh
+            }
+
+            #socials {
+                position: relative;
+                top: auto;
+                right: auto;
+                justify-content: center;
+                padding: 16px 0 10px;
+                z-index: 15
+            }
+
+            #about-box {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                width: 90%;
+                max-width: 400px;
+                margin: 20px auto 30px;
+                padding: 22px 20px
+            }
+
+            #about-heading {
+                font-size: 26px;
+                letter-spacing: 5px
+            }
+
+            #about-text {
+                font-size: 11px;
+                line-height: 1.7
+            }
+
+            #dial-wrap {
+                position: relative;
+                top: auto;
+                left: auto !important;
+                right: auto !important;
+                transform: none;
+                width: 220px;
+                height: 220px;
+                margin: 0 auto 80px
+            }
+
+            .wheel-nav {
+                display: flex
+            }
+
+            #wl-hint {
+                display: none
+            }
+
+            #ov-title {
+                font-size: 36px;
+                letter-spacing: 6px
+            }
+        }
+
+        @media(max-width:480px) {
+            #dial-wrap {
+                width: 200px;
+                height: 200px
+            }
+
+            #about-box {
+                padding: 16px 14px
+            }
+
+            #about-heading {
+                font-size: 22px
+            }
+
+            #about-text {
+                font-size: 10px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cursor"></div>
+    <div id="cursor-dot"></div>
+    <div id="bg-img"></div>
+    <div id="vignette"></div>
+    <div id="scanlines"></div>
+
+    <div class="corner ctL"><svg viewBox="0 0 50 50" fill="none">
+            <path d="M2 26L2 2L26 2" stroke="#106060" stroke-width="1.5" />
+            <path d="M2 12L2 2L12 2" stroke="#00ff99" stroke-width="0.7" />
+            <circle cx="2" cy="2" r="1.5" fill="#106060" />
+        </svg></div>
+    <div class="corner ctR"><svg viewBox="0 0 50 50" fill="none">
+            <path d="M2 26L2 2L26 2" stroke="#106060" stroke-width="1.5" />
+            <path d="M2 12L2 2L12 2" stroke="#00ff99" stroke-width="0.7" />
+            <circle cx="2" cy="2" r="1.5" fill="#106060" />
+        </svg></div>
+    <div class="corner cbL"><svg viewBox="0 0 50 50" fill="none">
+            <path d="M2 26L2 2L26 2" stroke="#106060" stroke-width="1.5" />
+            <path d="M2 12L2 2L12 2" stroke="#00ff99" stroke-width="0.7" />
+            <circle cx="2" cy="2" r="1.5" fill="#106060" />
+        </svg></div>
+    <div class="corner cbR"><svg viewBox="0 0 50 50" fill="none">
+            <path d="M2 26L2 2L26 2" stroke="#106060" stroke-width="1.5" />
+            <path d="M2 12L2 2L12 2" stroke="#00ff99" stroke-width="0.7" />
+            <circle cx="2" cy="2" r="1.5" fill="#106060" />
+        </svg></div>
+
+    <!-- SOCIAL ICONS -->
+    <div id="socials">
+        <a class="social-icon" href="https://github.com/" target="_blank" title="GitHub"><svg viewBox="0 0 24 24">
+                <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+            </svg></a>
+        <a class="social-icon" href="mailto:your@email.com" title="Email"><svg viewBox="0 0 24 24">
+                <path
+                    d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+            </svg></a>
+        <a class="social-icon" href="https://linkedin.com/" target="_blank" title="LinkedIn"><svg viewBox="0 0 24 24">
+                <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg></a>
+        <a class="social-icon" href="#" title="Location"><svg viewBox="0 0 24 24">
+                <path
+                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" />
+            </svg></a>
+    </div>
+
+    <!-- ABOUT INFO BOX -->
+    <div id="about-box">
+        <div id="about-heading">ABOUT</div>
+        <div id="about-text">
+            I am a passionate <span class="hl">full-stack developer</span> and <span class="hl">AI engineer</span> with
+            a deep interest in building intelligent, scalable systems that push the boundaries of what's possible. From
+            crafting clean backend architectures to designing agentic AI workflows, I thrive at the intersection of
+            engineering and innovation.<br><br>
+            When I'm not writing code, you'll find me exploring new frameworks, contributing to open-source, or diving
+            into the latest research in <span class="hl">large language models</span> and <span class="hl">autonomous
+                agents</span>. I believe in building things that matter — software that solves real problems and
+            empowers people.
+        </div>
+    </div>
+
+    <!-- DIAL — positioned to the left of the about box -->
+    <div id="dial-wrap">
+        <svg id="wheel-svg" viewBox="-140 -140 280 280" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="hg" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#001a0a" />
+                    <stop offset="100%" stop-color="#000" />
+                </radialGradient>
+            </defs>
+            <circle cx="0" cy="0" r="126" fill="none" stroke="#102018" stroke-width="0.5" />
+            <circle cx="0" cy="0" r="128" fill="none" stroke="#002020" stroke-width="1" />
+            <circle cx="0" cy="0" r="88" fill="none" stroke="#002020" stroke-width="1" />
+            <circle cx="0" cy="0" r="42" fill="none" stroke="#003030" stroke-width="1" />
+            <g id="sg"></g>
+            <g id="pk"></g>
+            <g id="lg"></g>
+            <g id="tg"></g>
+            <circle cx="0" cy="0" r="42" fill="url(#hg)" stroke="#106060" stroke-width="1.5" />
+            <circle cx="0" cy="0" r="34" fill="none" stroke="#103020" stroke-width="0.4" />
+            <line x1="-10" y1="0" x2="10" y2="0" stroke="#106060" stroke-width="0.8" />
+            <line x1="0" y1="-10" x2="0" y2="10" stroke="#106060" stroke-width="0.8" />
+            <circle cx="0" cy="0" r="2.5" fill="#106060" />
+        </svg>
+        <div id="wheel-label"><span id="wl-name">ABOUT</span><span id="wl-hint">HOVER + SCROLL</span></div>
+        <div class="wheel-nav"><button id="nav-prev">◀</button><button id="nav-next">▶</button></div>
+    </div>
+
+    <div id="overlay">
+        <div id="ov-title">SECTION</div>
+        <div id="ov-sub">[ COMING SOON ]</div>
+        <button id="back-btn" onclick="document.getElementById('overlay').classList.remove('vis')">← BACK</button>
+    </div>
+
+    <script>
+        /* CURSOR */
+        const cur = document.getElementById('cursor'), dot = document.getElementById('cursor-dot');
+        document.addEventListener('mousemove', e => { cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px' });
+
+
+
+        /* WHEEL */
+        const SEC = ['HOME', 'PROJECTS', 'SKILLS', 'EXPERIENCE', 'ABOUT'];
+        const N = SEC.length, SL = (2 * Math.PI) / N, RO = 128, RI = 88, RL = 108;
+        let cur_ = 4, wRot = 0, tRot = 0, raf = null, hot = false, locked = false;
+        const ns = 'http://www.w3.org/2000/svg';
+        function mk(t, a) { const e = document.createElementNS(ns, t); for (const [k, v] of Object.entries(a)) e.setAttribute(k, v); return e }
+        function P(a, r) { return [Math.cos(a) * r, Math.sin(a) * r] }
+        function arc(sa, ea, ri, ro) { const [x1, y1] = P(sa, ro), [x2, y2] = P(ea, ro), [x3, y3] = P(ea, ri), [x4, y4] = P(sa, ri); const lg = ea - sa > Math.PI ? 1 : 0; return `M${x1},${y1}A${ro},${ro} 0 ${lg} 1 ${x2},${y2}L${x3},${y3}A${ri},${ri} 0 ${lg} 0 ${x4},${y4}Z` }
+        const SG = document.getElementById('sg'), PK = document.getElementById('pk'), LG = document.getElementById('lg'), TG = document.getElementById('tg');
+        function buildWheel() {
+            [SG, PK, LG, TG].forEach(g => g.innerHTML = ''); const off = -Math.PI / 2 - SL / 2;
+            for (let i = 0; i < N; i++) {
+                const sa = off + i * SL, ea = sa + SL, mid = (sa + ea) / 2;
+                SG.appendChild(mk('path', { d: arc(sa, ea, RI, RO), fill: '#000a00', stroke: '#002020', 'stroke-width': '0.8', id: 's' + i }));
+                const [sx, sy] = P(sa, RO + 2), [sx2, sy2] = P(sa, RI - 2);
+                PK.appendChild(mk('line', { x1: sx2, y1: sy2, x2: sx, y2: sy, stroke: '#002020', 'stroke-width': '0.8' }));
+                const [lx, ly] = P(mid, RL); const t = mk('text', { x: lx, y: ly + 3, 'text-anchor': 'middle', 'font-size': '8', 'font-family': "'Share Tech Mono',monospace", 'letter-spacing': '2', fill: '#104040', id: 'l' + i });
+                t.textContent = SEC[i]; LG.appendChild(t)
+            }
+            for (let t = 0; t < 60; t++) {
+                const a = (t / 60) * 2 * Math.PI - Math.PI / 2, maj = t % 10 === 0;
+                const [x1, y1] = P(a, RO + 1), [x2, y2] = P(a, RO + (maj ? 7 : 3));
+                TG.appendChild(mk('line', { x1, y1, x2, y2, stroke: maj ? '#105050' : '#002020', 'stroke-width': maj ? '0.9' : '0.4' }))
+            }
+            refresh()
+        }
+        function refresh() {
+            for (let i = 0; i < N; i++) {
+                const s = document.getElementById('s' + i), l = document.getElementById('l' + i);
+                if (i === cur_) { s.setAttribute('fill', '#001a08'); s.setAttribute('stroke', '#00ff99'); s.setAttribute('stroke-width', '1.5'); l.setAttribute('fill', '#00ff99'); l.setAttribute('font-weight', '600') }
+                else { s.setAttribute('fill', '#000a00'); s.setAttribute('stroke', '#002020'); s.setAttribute('stroke-width', '0.8'); l.setAttribute('fill', '#104040'); l.setAttribute('font-weight', '400') }
+            }
+            document.getElementById('wl-name').textContent = SEC[cur_]
+        }
+        function spin() {
+            const d = tRot - wRot; if (Math.abs(d) > .12) {
+                wRot += d * .13;
+                SG.setAttribute('transform', `rotate(${wRot})`); PK.setAttribute('transform', `rotate(${wRot})`);
+                TG.setAttribute('transform', `rotate(${wRot})`); LG.setAttribute('transform', `rotate(${wRot})`);
+                const off = -Math.PI / 2 - SL / 2; for (let i = 0; i < N; i++) {
+                    const mid = off + i * SL + SL / 2, [lx, ly] = P(mid, RL);
+                    document.getElementById('l' + i).setAttribute('transform', `rotate(${-wRot} ${lx} ${ly})`)
+                }
+                raf = requestAnimationFrame(spin)
+            } else { wRot = tRot }
+        }
+        buildWheel();
+        const cp = document.getElementById('dial-wrap');
+        cp.addEventListener('mouseenter', () => { hot = true; document.getElementById('wheel-svg').classList.add('hot'); document.getElementById('wl-hint').textContent = 'SCROLL · CLICK' });
+        cp.addEventListener('mouseleave', () => { hot = false; document.getElementById('wheel-svg').classList.remove('hot'); document.getElementById('wl-hint').textContent = 'HOVER + SCROLL' });
+        window.addEventListener('wheel', e => { if (!hot || locked) return; e.preventDefault(); locked = true; stepWheel(e.deltaY > 0 ? 1 : -1); setTimeout(() => { locked = false }, 300) }, { passive: false });
+        cp.addEventListener('click', () => { if (!hot) return; openSection() });
+        function stepWheel(dir) { cur_ = ((cur_ + dir) + N) % N; tRot -= dir * (360 / N); refresh(); cancelAnimationFrame(raf); spin() }
+        function openSection() {
+            const s = SEC[cur_];
+            if (s === 'ABOUT') return;
+            if (s === 'HOME') { location.href = 'index.html'; return }
+            if (s === 'SKILLS') { location.href = 'skills.html'; return }
+            if (s === 'EXPERIENCE') { location.href = 'experience.html'; return }
+            document.getElementById('ov-title').textContent = s;
+            document.getElementById('ov-sub').textContent = '[ ' + s + ' — COMING SOON ]';
+            document.getElementById('overlay').classList.add('vis');
+        }
+        document.getElementById('nav-prev').addEventListener('click', e => { e.stopPropagation(); stepWheel(-1) });
+        document.getElementById('nav-next').addEventListener('click', e => { e.stopPropagation(); stepWheel(1) });
+        let tx = 0, ty = 0;
+        cp.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY }, { passive: true });
+        cp.addEventListener('touchend', e => { if (locked) return; const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty, ax = Math.abs(dx), ay = Math.abs(dy); if (Math.max(ax, ay) < 30) return; locked = true; stepWheel(ax >= ay ? (dx > 0 ? 1 : -1) : (dy > 0 ? 1 : -1)); setTimeout(() => { locked = false }, 300) }, { passive: true });
+    </script>
+</body>
+
+</html>

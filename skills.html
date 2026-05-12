@@ -634,7 +634,7 @@
         });
 
         /* ── WEAPON WHEEL ── */
-        const SEC = ['HOME', 'PROJECTS', 'SKILLS', 'EXPERIENCE', 'BLOGS', 'ABOUT'];
+        const SEC = ['HOME', 'PROJECTS', 'SKILLS', 'EXPERIENCE', 'ABOUT'];
         const N = SEC.length, SL = (2 * Math.PI) / N;
         const RO = 128, RI = 88, RL = 108;
         // Start with SKILLS selected (index 2)
@@ -748,6 +748,7 @@
             if (s === 'SKILLS') return; // already here
             if (s === 'HOME') { window.location.href = 'index.html'; return; }
             if (s === 'EXPERIENCE') { window.location.href = 'experience.html'; return; }
+            if (s === 'ABOUT') { window.location.href = 'about.html'; return; }
             document.getElementById('ov-title').textContent = s;
             document.getElementById('ov-sub').textContent = '[ ' + s + ' — COMING SOON ]';
             document.getElementById('overlay').classList.add('vis');
