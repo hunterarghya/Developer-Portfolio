@@ -792,7 +792,10 @@
 
         /* Desktop: click to enter */
         cp.addEventListener('click', () => {
-            if (!hot || SEC[cur_] === 'HOME') return;
+            if (!hot) return;
+            const s = SEC[cur_];
+            if (s === 'HOME') return;
+            if (s === 'SKILLS') { window.location.href = 'skills.html'; return; }
             openSection();
         });
 

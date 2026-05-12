@@ -1,0 +1,164 @@
+{
+    "groups": [
+        {
+            "name": "Languages",
+            "position": "top-left",
+            "skills": [
+                {
+                    "name": "Python",
+                    "slug": "python",
+                    "color": "white"
+                },
+                {
+                    "name": "C#",
+                    "slug": "csharp",
+                    "color": "white"
+                },
+                {
+                    "name": "Go",
+                    "slug": "go",
+                    "color": "white"
+                },
+                {
+                    "name": "JavaScript",
+                    "slug": "javascript",
+                    "color": "white"
+                },
+                {
+                    "name": "SQL",
+                    "slug": "postgresql",
+                    "color": "white"
+                },
+                {
+                    "name": "Bash",
+                    "slug": "gnubash",
+                    "color": "white"
+                }
+            ]
+        },
+        {
+            "name": "Frameworks",
+            "position": "top-right",
+            "skills": [
+                {
+                    "name": "FastAPI",
+                    "slug": "fastapi",
+                    "color": "white"
+                },
+                {
+                    "name": "Django",
+                    "slug": "django",
+                    "color": "white"
+                },
+                {
+                    "name": "Node.js",
+                    "slug": "nodedotjs",
+                    "color": "white"
+                },
+                {
+                    "name": "Nuxt.js",
+                    "slug": "nuxtdotjs",
+                    "color": "white"
+                },
+                {
+                    "name": "React",
+                    "slug": "react",
+                    "color": "white"
+                },
+                {
+                    "name": "Vue",
+                    "slug": "vuedotjs",
+                    "color": "white"
+                }
+            ]
+        },
+        {
+            "name": "Databases",
+            "position": "left",
+            "skills": [
+                {
+                    "name": "PostgreSQL",
+                    "slug": "postgresql",
+                    "color": "white"
+                },
+                {
+                    "name": "MongoDB",
+                    "slug": "mongodb",
+                    "color": "white"
+                },
+                {
+                    "name": "Redis",
+                    "slug": "redis",
+                    "color": "white"
+                },
+                {
+                    "name": "RabbitMQ",
+                    "slug": "rabbitmq",
+                    "color": "white"
+                }
+            ]
+        },
+        {
+            "name": "Agentic AI",
+            "position": "right",
+            "skills": [
+                {
+                    "name": "LangChain",
+                    "slug": "langchain",
+                    "color": "white"
+                },
+                {
+                    "name": "CrewAI",
+                    "slug": "crewai",
+                    "color": "white"
+                },
+                {
+                    "name": "Google ADK",
+                    "slug": "google",
+                    "color": "white"
+                },
+                {
+                    "name": "Vercel AI",
+                    "slug": "vercel",
+                    "color": "white"
+                },
+                {
+                    "name": "n8n",
+                    "slug": "n8n",
+                    "color": "white"
+                },
+                {
+                    "name": "ChromaDB",
+                    "slug": "chroma",
+                    "color": "white"
+                },
+                {
+                    "name": "Qdrant",
+                    "slug": "qdrant",
+                    "color": "white"
+                }
+            ]
+        },
+        {
+            "name": "DevOps & Infra",
+            "position": "bottom",
+            "skills": [
+                {
+                    "name": "Docker",
+                    "slug": "docker",
+                    "color": "white"
+                },
+                {
+                    "name": "GitHub Actions",
+                    "slug": "githubactions",
+                    "color": "white"
+                },
+                {
+                    "name": "RabbitMQ",
+                    "slug": "rabbitmq",
+                    "color": "white"
+                }
+            ]
+        }
+    ]
+}
