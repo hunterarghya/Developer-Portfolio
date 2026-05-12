@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXPERIENCE — ARGHYA MALAKAR</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+
+        :root {
+            --c0: #000;
+            --c1: #001000;
+            --c4: #002020;
+            --c5: #003030;
+            --c7: #104040;
+            --c8: #105050;
+            --c9: #106060;
+            --glow: #00ff99
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            font-family: 'Share Tech Mono', monospace;
+            overflow: hidden;
+            cursor: none
+        }
+
+        #cursor {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border: 1px solid var(--glow);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: screen
+        }
+
+        #cursor-dot {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: var(--glow);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%)
+        }
+
+        #scanlines {
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0, 0, 0, .07) 3px, rgba(0, 0, 0, .07) 4px);
+            pointer-events: none;
+            z-index: 100
+        }
+
+        #vignette {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, .8) 100%);
+            pointer-events: none;
+            z-index: 99
+        }
+
+        #grid-bg {
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(var(--c1) 1px, transparent 1px), linear-gradient(90deg, var(--c1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: .35;
+            z-index: 0
+        }
+
+        .corner {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            pointer-events: none;
+            z-index: 50
+        }
+
+        .corner svg {
+            width: 100%;
+            height: 100%
+        }
+
+        .ctL {
+            top: 18px;
+            left: 18px
+        }
+
+        .ctR {
+            top: 18px;
+            right: 18px;
+            transform: scaleX(-1)
+        }
+
+        .cbL {
+            bottom: 18px;
+            left: 18px;
+            transform: scaleY(-1)
+        }
+
+        .cbR {
+            bottom: 18px;
+            right: 18px;
+            transform: scale(-1)
+        }
+
+        #page-id {
+            position: fixed;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'VT323', monospace;
+            font-size: 14px;
+            color: var(--c8);
+            letter-spacing: 6px;
+            z-index: 60;
+            pointer-events: none
+        }
+
+        #rain-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: .1
+        }
+
+        /* ROAD LAYER */
+        #road-layer {
+            position: fixed;
+            inset: 0;
+            z-index: 8;
+            pointer-events: none
+        }
+
+        #road-svg {
+            width: 100%;
+            height: 100%
+        }
+
+        .road-bg {
+            fill: none;
+            stroke: var(--c4);
+            stroke-width: 26;
+            stroke-linecap: round
+        }
+
+        .road-dash {
+            fill: none;
+            stroke: var(--c5);
+            stroke-width: 2;
+            stroke-dasharray: 10 8
+        }
+
+        .road-glow {
+            fill: none;
+            stroke: var(--glow);
+            stroke-width: 28;
+            stroke-linecap: round;
+            opacity: .03
+        }
+
+        #cards-layer {
+            position: fixed;
+            inset: 0;
+            z-index: 9;
+            pointer-events: none
+        }
+
+        .exp-card {
+            position: absolute;
+            pointer-events: all;
+            background: rgba(0, 10, 0, .85);
+            border: 1px solid var(--c4);
+            padding: 12px 16px;
+            width: 180px;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            animation: fadeIn .5s forwards;
+            transition: border-color .2s, background .2s;
+            cursor: default
+        }
+
+        .exp-card:hover {
+            border-color: var(--glow);
+            background: rgba(0, 26, 10, .9)
+        }
+
+        .exp-flag {
+            font-size: 8px;
+            letter-spacing: 3px;
+            color: var(--glow);
+            margin-bottom: 4px
+        }
+
+        .exp-role {
+            font-size: 12px;
+            color: hsl(168, 50%, 45%);
+            letter-spacing: 1px;
+            margin-bottom: 3px
+        }
+
+        .exp-company {
+            font-family: 'VT323', monospace;
+            font-size: 17px;
+            color: var(--glow);
+            letter-spacing: 2px;
+            margin-bottom: 4px
+        }
+
+        .exp-duration {
+            font-size: 8px;
+            color: var(--c8);
+            letter-spacing: 2px
+        }
+
+        .road-label {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            font-family: 'VT323', monospace;
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: var(--c7);
+            pointer-events: none;
+            white-space: nowrap
+        }
+
+        /* DIAL */
+        #stage {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            pointer-events: none
+        }
+
+        #dial-wrap {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            pointer-events: all;
+            z-index: 20
+        }
+
+        #wheel-svg {
+            width: 100%;
+            height: 100%;
+            transition: filter .3s;
+            cursor: none
+        }
+
+        #wheel-svg.hot {
+            filter: drop-shadow(0 0 14px rgba(0, 255, 128, .22))
+        }
+
+        #wheel-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            z-index: 5
+        }
+
+        #wl-name {
+            font-family: 'VT323', monospace;
+            font-size: 17px;
+            color: var(--glow);
+            letter-spacing: 4px;
+            display: block;
+            min-height: 20px
+        }
+
+        #wl-hint {
+            font-size: 8px;
+            color: var(--c7);
+            letter-spacing: 2px;
+            display: block;
+            margin-top: 3px
+        }
+
+        .wheel-nav {
+            display: none;
+            position: absolute;
+            bottom: -44px;
+            left: 50%;
+            transform: translateX(-50%);
+            gap: 18px;
+            z-index: 25
+        }
+
+        .wheel-nav button {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 18px;
+            color: var(--glow);
+            background: rgba(0, 26, 10, .7);
+            border: 1px solid var(--c7);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        .wheel-nav button:active {
+            background: var(--c5);
+            border-color: var(--glow)
+        }
+
+        /* OVERLAY */
+        #overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .35s
+        }
+
+        #overlay.vis {
+            opacity: 1;
+            pointer-events: all
+        }
+
+        #ov-title {
+            font-family: 'VT323', monospace;
+            font-size: 60px;
+            color: var(--glow);
+            letter-spacing: 12px;
+            margin-bottom: 12px
+        }
+
+        #ov-sub {
+            font-size: 11px;
+            color: var(--c8);
+            letter-spacing: 4px;
+            margin-bottom: 34px
+        }
+
+        #back-btn {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            color: var(--c9);
+            letter-spacing: 3px;
+            border: 1px solid var(--c7);
+            padding: 9px 28px;
+            background: transparent;
+            cursor: pointer
+        }
+
+        #back-btn:hover {
+            background: var(--c4);
+            color: var(--glow);
+            border-color: var(--glow)
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 6px rgba(0, 255, 153, .3)
+            }
+
+            50% {
+                box-shadow: 0 0 18px rgba(0, 255, 153, .6)
+            }
+        }
+
+        /* MOBILE */
+        @media(max-width:768px) {
+
+            html,
+            body {
+                overflow-y: auto;
+                overflow-x: hidden;
+                cursor: default
+            }
+
+            #cursor,
+            #cursor-dot,
+            #vignette,
+            .corner {
+                display: none
+            }
+
+            #page-id {
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
+                text-align: center;
+                padding: 18px 0 10px
+            }
+
+            #road-layer,
+            #cards-layer {
+                display: none
+            }
+
+            #mobile-road {
+                display: flex !important;
+                flex-direction: column;
+                align-items: center;
+                padding: 0 20px 20px;
+                gap: 0;
+                position: relative
+            }
+
+            .m-line {
+                width: 2px;
+                height: 40px;
+                background: var(--c4);
+                position: relative
+            }
+
+            .m-line::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--c5)
+            }
+
+            .m-card {
+                background: rgba(0, 10, 0, .85);
+                border: 1px solid var(--c4);
+                padding: 14px 18px;
+                width: 90%;
+                max-width: 320px;
+                text-align: center;
+                opacity: 0;
+                animation: fadeIn .5s forwards
+            }
+
+            .m-card:hover {
+                border-color: var(--glow)
+            }
+
+            .m-start,
+            .m-end {
+                font-family: 'VT323', monospace;
+                font-size: 11px;
+                color: var(--c7);
+                letter-spacing: 3px;
+                padding: 8px
+            }
+
+            #stage {
+                position: relative;
+                inset: auto;
+                padding: 30px 0 80px
+            }
+
+            #dial-wrap {
+                width: 220px;
+                height: 220px
+            }
+
+            .wheel-nav {
+                display: flex
+            }
+
+            #wl-hint {
+                display: none
+            }
+
+            #ov-title {
+                font-size: 36px;
+                letter-spacing: 6px
+            }
+        }
+
+        @media(max-width:480px) {
+            #dial-wrap {
+                width: 200px;
+                height: 200px
+            }
+
+            .m-card {
+                padding: 10px 14px
+            }
+
+            .exp-company {
+                font-size: 15px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cursor"></div>
+    <div id="cursor-dot"></div>
+    <div id="scanlines"></div>
+    <div id="vignette"></div>
+    <div id="grid-bg"></div>
+    <canvas id="rain-canvas"></canvas>
+    <div class="corner ctL"><svg viewBox="0 0 50 50" fill="none">
+            <path d="M2 26L2 2L26 2" stroke="#106060" stroke-width="1.5" />
+            <path d="M2 12L2 2L12 2" stroke="#00ff99" stroke-width="0.7" />
+            <circle cx="2" cy="2" r="1.5" fill="#106060" />
+        </svg></div>
+    <div class="corner ctR"><svg viewBox="0 0 50 50" fill="none">
+            <path d="M2 26L2 2L26 2" stroke="#106060" stroke-width="1.5" />
+            <path d="M2 12L2 2L12 2" stroke="#00ff99" stroke-width="0.7" />
+            <circle cx="2" cy="2" r="1.5" fill="#106060" />
+        </svg></div>
+    <div class="corner cbL"><svg viewBox="0 0 50 50" fill="none">
+            <path d="M2 26L2 2L26 2" stroke="#106060" stroke-width="1.5" />
+            <path d="M2 12L2 2L12 2" stroke="#00ff99" stroke-width="0.7" />
+            <circle cx="2" cy="2" r="1.5" fill="#106060" />
+        </svg></div>
+    <div class="corner cbR"><svg viewBox="0 0 50 50" fill="none">
+            <path d="M2 26L2 2L26 2" stroke="#106060" stroke-width="1.5" />
+            <path d="M2 12L2 2L12 2" stroke="#00ff99" stroke-width="0.7" />
+            <circle cx="2" cy="2" r="1.5" fill="#106060" />
+        </svg></div>
+    <div id="page-id">// EXPERIENCE</div>
+    <svg id="road-layer"><svg id="road-svg"></svg></svg>
+    <div id="cards-layer"></div>
+    <div id="mobile-road" style="display:none"></div>
+    <div id="stage">
+        <div id="dial-wrap">
+            <svg id="wheel-svg" viewBox="-140 -140 280 280" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <radialGradient id="hg" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#001a0a" />
+                        <stop offset="100%" stop-color="#000" />
+                    </radialGradient>
+                </defs>
+                <circle cx="0" cy="0" r="126" fill="none" stroke="#102018" stroke-width="0.5" />
+                <circle cx="0" cy="0" r="128" fill="none" stroke="#002020" stroke-width="1" />
+                <circle cx="0" cy="0" r="88" fill="none" stroke="#002020" stroke-width="1" />
+                <circle cx="0" cy="0" r="42" fill="none" stroke="#003030" stroke-width="1" />
+                <g id="sg"></g>
+                <g id="pk"></g>
+                <g id="lg"></g>
+                <g id="tg"></g>
+                <circle cx="0" cy="0" r="42" fill="url(#hg)" stroke="#106060" stroke-width="1.5" />
+                <circle cx="0" cy="0" r="34" fill="none" stroke="#103020" stroke-width="0.4" />
+                <line x1="-10" y1="0" x2="10" y2="0" stroke="#106060" stroke-width="0.8" />
+                <line x1="0" y1="-10" x2="0" y2="10" stroke="#106060" stroke-width="0.8" />
+                <circle cx="0" cy="0" r="2.5" fill="#106060" />
+            </svg>
+            <div id="wheel-label"><span id="wl-name">EXPERIENCE</span><span id="wl-hint">HOVER + SCROLL</span></div>
+            <div class="wheel-nav"><button id="nav-prev">◀</button><button id="nav-next">▶</button></div>
+        </div>
+    </div>
+    <div id="overlay">
+        <div id="ov-title">SECTION</div>
+        <div id="ov-sub">[ COMING SOON ]</div>
+        <button id="back-btn" onclick="document.getElementById('overlay').classList.remove('vis')">← BACK</button>
+    </div>
+    <script>
+        /* CURSOR */
+        const cur = document.getElementById('cursor'), dot = document.getElementById('cursor-dot');
+        document.addEventListener('mousemove', e => { cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px'; dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px' });
+
+        /* ── EXPERIENCE DATA — edit this to update your experience ── */
+        const EXP_DATA = [
+            // side: "out" = outside the road, "in" = inside (toward dial). Omit to auto-alternate.
+            { company: "Your Company", role: "Your Role", duration: "Mon Year — Present", current: true, side: "out" },
+            { company: "Previous Co", role: "Previous Role", duration: "Mon Year — Mon Year", side: "out" },
+            { company: "First Job", role: "Junior Developer", duration: "Mon Year — Mon Year", side: "out" }
+        ];
+
+        /* ── ROAD MAP ── */
+        const svgNS = 'http://www.w3.org/2000/svg';
+        function isMobile() { return window.innerWidth <= 768 }
+
+        function renderRoad() {
+            if (isMobile()) { renderMobile(); return }
+            const svg = document.getElementById('road-svg');
+            const cards = document.getElementById('cards-layer');
+            svg.innerHTML = ''; cards.innerHTML = '';
+            const W = window.innerWidth, H = window.innerHeight;
+            const cx = W / 2, cy = H / 2;
+            const baseRx = Math.min(W * 0.34, 380), baseRy = Math.min(H * 0.34, 260);
+            svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+            document.getElementById('road-layer').setAttribute('viewBox', `0 0 ${W} ${H}`);
+            const n = EXP_DATA.length;
+
+            // Irregular circuit shape — control points define radius multipliers at various angles
+            // This creates an organic, race-track-like shape around the dial
+            const shape = [
+                { a: 0, rx: 1.05, ry: 0.85 },
+                { a: 0.4, rx: 1.15, ry: 0.70 },
+                { a: 0.8, rx: 1.25, ry: 0.80 },
+                { a: 1.1, rx: 1.10, ry: 1.00 },
+                { a: 1.5, rx: 0.85, ry: 1.15 },
+                { a: 1.9, rx: 0.75, ry: 1.05 },
+                { a: 2.3, rx: 0.90, ry: 0.90 },
+                { a: 2.7, rx: 1.10, ry: 0.75 },
+                { a: 3.1, rx: 1.20, ry: 0.85 },
+                { a: 3.5, rx: 1.05, ry: 1.10 },
+                { a: 3.9, rx: 0.80, ry: 1.20 },
+                { a: 4.3, rx: 0.70, ry: 1.05 },
+                { a: 4.7, rx: 0.85, ry: 0.80 },
+                { a: 5.1, rx: 1.00, ry: 0.70 },
+                { a: 5.5, rx: 1.15, ry: 0.78 },
+                { a: 5.9, rx: 1.10, ry: 0.90 },
+            ];
+            // Interpolate shape to get radius at any angle
+            function getR(angle) {
+                const a = ((angle % (2 * Math.PI)) + (2 * Math.PI)) % (2 * Math.PI);
+                let i0 = 0, i1 = 1;
+                for (let i = 0; i < shape.length; i++) { if (shape[i].a <= a) i0 = i; else { i1 = i; break } }
+                if (i1 <= i0) i1 = 0;
+                const s0 = shape[i0], s1 = shape[i1];
+                const span = ((s1.a - s0.a) + (2 * Math.PI)) % (2 * Math.PI) || 1;
+                const t = ((a - s0.a) + (2 * Math.PI)) % (2 * Math.PI) / span;
+                const st = t * t * (3 - 2 * t); // smoothstep
+                return { rx: baseRx * (s0.rx + (s1.rx - s0.rx) * st), ry: baseRy * (s0.ry + (s1.ry - s0.ry) * st) };
+            }
+            function ptAt(a) { const rr = getR(a); return [cx + rr.rx * Math.cos(a), cy + rr.ry * Math.sin(a)] }
+
+            // Place checkpoints on the circuit
+            const startA = Math.PI * 0.9, span = Math.PI * 1.78;
+            const pts = [];
+            for (let i = 0; i < n; i++) {
+                const t = n === 1 ? 0.5 : i / (n - 1);
+                const a = startA - t * span;
+                const [px, py] = ptAt(a);
+                pts.push({ a, x: px, y: py, ...EXP_DATA[i], idx: i });
+            }
+            // Draw the full circuit road path using dense points + smooth cubic bezier
+            const aStart = startA + 0.15, aEnd = startA - span - 0.15;
+            const steps = 200; const pathPts = [];
+            for (let i = 0; i <= steps; i++) {
+                const a = aStart + (aEnd - aStart) * (i / steps);
+                pathPts.push(ptAt(a));
+            }
+            // Build smooth SVG path with cubic bezier through points
+            let d = 'M' + pathPts[0][0].toFixed(1) + ',' + pathPts[0][1].toFixed(1);
+            for (let i = 1; i < pathPts.length; i++) {
+                d += ' L' + pathPts[i][0].toFixed(1) + ',' + pathPts[i][1].toFixed(1);
+            }
+            // glow
+            const g = document.createElementNS(svgNS, 'path'); g.setAttribute('d', d); g.setAttribute('class', 'road-glow'); svg.appendChild(g);
+            // road bg
+            const r = document.createElementNS(svgNS, 'path'); r.setAttribute('d', d); r.setAttribute('class', 'road-bg'); svg.appendChild(r);
+            // center dash
+            const c = document.createElementNS(svgNS, 'path'); c.setAttribute('d', d); c.setAttribute('class', 'road-dash'); svg.appendChild(c);
+            // Checkpoint nodes + cards
+            pts.forEach((p, i) => {
+                const nd = document.createElementNS(svgNS, 'circle');
+                nd.setAttribute('cx', p.x); nd.setAttribute('cy', p.y); nd.setAttribute('r', '7');
+                nd.setAttribute('fill', p.current ? 'var(--glow)' : '#001a0a');
+                nd.setAttribute('stroke', p.current ? 'var(--glow)' : 'var(--c8)'); nd.setAttribute('stroke-width', '2');
+                if (p.current) { nd.style.filter = 'drop-shadow(0 0 6px rgba(0,255,153,.5))' }
+                svg.appendChild(nd);
+                // number
+                const txt = document.createElementNS(svgNS, 'text');
+                txt.setAttribute('x', p.x); txt.setAttribute('y', p.y + 3.5);
+                txt.setAttribute('text-anchor', 'middle'); txt.setAttribute('font-size', '8');
+                txt.setAttribute('font-family', "'VT323',monospace"); txt.setAttribute('fill', p.current ? '#000' : 'var(--glow)');
+                txt.textContent = String(n - i).padStart(2, '0'); svg.appendChild(txt);
+                // Card
+                const isOuter = p.side ? p.side === 'out' : i % 2 === 0;
+                const dx = p.x - cx, dy = p.y - cy, len = Math.sqrt(dx * dx + dy * dy) || 1;
+                const off = isOuter ? 110 : -110;
+                const cardX = p.x + (dx / len) * off, cardY = p.y + (dy / len) * off;
+                const card = document.createElement('div'); card.className = 'exp-card';
+                card.style.left = cardX + 'px'; card.style.top = cardY + 'px';
+                card.style.animationDelay = (i * 0.12) + 's';
+                card.innerHTML = (p.current ? '<div class="exp-flag">▶ CURRENT</div>' : '') +
+                    '<div class="exp-role">' + p.role + '</div>' +
+                    '<div class="exp-company">' + p.company + '</div>' +
+                    '<div class="exp-duration">' + p.duration + '</div>';
+                cards.appendChild(card);
+                // connector line
+                const ln = document.createElementNS(svgNS, 'line');
+                ln.setAttribute('x1', p.x); ln.setAttribute('y1', p.y);
+                ln.setAttribute('x2', cardX); ln.setAttribute('y2', cardY);
+                ln.setAttribute('stroke', 'var(--c4)'); ln.setAttribute('stroke-width', '1');
+                ln.setAttribute('stroke-dasharray', '3 3'); ln.setAttribute('opacity', '0.5');
+                svg.appendChild(ln);
+            });
+            // START / NOW labels
+            if (pts.length) {
+                const last = pts[pts.length - 1], first = pts[0];
+                addLabel(cards, '● START', last.x, last.y, last.a, cx, cy, 50);
+                addLabel(cards, '▶ NOW', first.x, first.y, first.a, cx, cy, 50);
+            }
+        }
+        function addLabel(container, text, px, py, a, cx, cy, off) {
+            const dx = px - cx, dy = py - cy, len = Math.sqrt(dx * dx + dy * dy) || 1;
+            const lbl = document.createElement('div'); lbl.className = 'road-label';
+            lbl.style.left = (px - (dx / len) * off) + 'px'; lbl.style.top = (py - (dy / len) * off) + 'px';
+            lbl.textContent = text; container.appendChild(lbl);
+        }
+        function renderMobile() {
+            const mr = document.getElementById('mobile-road'); mr.innerHTML = '';
+            mr.innerHTML = '<div class="m-start">▶ NOW</div>';
+            EXP_DATA.forEach((e, i) => {
+                mr.innerHTML += '<div class="m-line"></div>' +
+                    '<div class="m-card" style="animation-delay:' + (i * 0.12) + 's">' +
+                    (e.current ? '<div class="exp-flag">▶ CURRENT</div>' : '') +
+                    '<div class="exp-role">' + e.role + '</div>' +
+                    '<div class="exp-company">' + e.company + '</div>' +
+                    '<div class="exp-duration">' + e.duration + '</div></div>';
+            });
+            mr.innerHTML += '<div class="m-line"></div><div class="m-end">● START</div>';
+        }
+        renderRoad();
+        window.addEventListener('resize', renderRoad);
+
+        /* ── WHEEL ── */
+        const SEC = ['HOME', 'PROJECTS', 'SKILLS', 'EXPERIENCE', 'BLOGS', 'ABOUT'];
+        const N = SEC.length, SL = (2 * Math.PI) / N, RO = 128, RI = 88, RL = 108;
+        let cur_ = 3, wRot = 0, tRot = 0, raf = null, hot = false, locked = false;
+        const ns = svgNS;
+        function mk(t, a) { const e = document.createElementNS(ns, t); for (const [k, v] of Object.entries(a)) e.setAttribute(k, v); return e }
+        function P(a, r) { return [Math.cos(a) * r, Math.sin(a) * r] }
+        function arc(sa, ea, ri, ro) { const [x1, y1] = P(sa, ro), [x2, y2] = P(ea, ro), [x3, y3] = P(ea, ri), [x4, y4] = P(sa, ri); const lg = ea - sa > Math.PI ? 1 : 0; return `M${x1},${y1}A${ro},${ro} 0 ${lg} 1 ${x2},${y2}L${x3},${y3}A${ri},${ri} 0 ${lg} 0 ${x4},${y4}Z` }
+        const SG = document.getElementById('sg'), PK = document.getElementById('pk'), LG = document.getElementById('lg'), TG = document.getElementById('tg');
+        function buildWheel() {
+            [SG, PK, LG, TG].forEach(g => g.innerHTML = ''); const off = -Math.PI / 2 - SL / 2;
+            for (let i = 0; i < N; i++) {
+                const sa = off + i * SL, ea = sa + SL, mid = (sa + ea) / 2;
+                SG.appendChild(mk('path', { d: arc(sa, ea, RI, RO), fill: '#000a00', stroke: '#002020', 'stroke-width': '0.8', id: 's' + i }));
+                const [sx, sy] = P(sa, RO + 2), [sx2, sy2] = P(sa, RI - 2);
+                PK.appendChild(mk('line', { x1: sx2, y1: sy2, x2: sx, y2: sy, stroke: '#002020', 'stroke-width': '0.8' }));
+                const [lx, ly] = P(mid, RL); const t = mk('text', { x: lx, y: ly + 3, 'text-anchor': 'middle', 'font-size': '8', 'font-family': "'Share Tech Mono',monospace", 'letter-spacing': '2', fill: '#104040', id: 'l' + i });
+                t.textContent = SEC[i]; LG.appendChild(t)
+            }
+            for (let t = 0; t < 60; t++) {
+                const a = (t / 60) * 2 * Math.PI - Math.PI / 2, maj = t % 10 === 0;
+                const [x1, y1] = P(a, RO + 1), [x2, y2] = P(a, RO + (maj ? 7 : 3));
+                TG.appendChild(mk('line', { x1, y1, x2, y2, stroke: maj ? '#105050' : '#002020', 'stroke-width': maj ? '0.9' : '0.4' }))
+            }
+            refresh()
+        }
+        function refresh() {
+            for (let i = 0; i < N; i++) {
+                const s = document.getElementById('s' + i), l = document.getElementById('l' + i);
+                if (i === cur_) { s.setAttribute('fill', '#001a08'); s.setAttribute('stroke', '#00ff99'); s.setAttribute('stroke-width', '1.5'); l.setAttribute('fill', '#00ff99'); l.setAttribute('font-weight', '600') }
+                else { s.setAttribute('fill', '#000a00'); s.setAttribute('stroke', '#002020'); s.setAttribute('stroke-width', '0.8'); l.setAttribute('fill', '#104040'); l.setAttribute('font-weight', '400') }
+            }
+            document.getElementById('wl-name').textContent = SEC[cur_]
+        }
+        function spin() {
+            const d = tRot - wRot; if (Math.abs(d) > .12) {
+                wRot += d * .13;
+                SG.setAttribute('transform', `rotate(${wRot})`); PK.setAttribute('transform', `rotate(${wRot})`);
+                TG.setAttribute('transform', `rotate(${wRot})`); LG.setAttribute('transform', `rotate(${wRot})`);
+                const off = -Math.PI / 2 - SL / 2; for (let i = 0; i < N; i++) {
+                    const mid = off + i * SL + SL / 2, [lx, ly] = P(mid, RL);
+                    document.getElementById('l' + i).setAttribute('transform', `rotate(${-wRot} ${lx} ${ly})`)
+                }
+                raf = requestAnimationFrame(spin)
+            } else { wRot = tRot }
+        }
+        buildWheel();
+        const cp = document.getElementById('dial-wrap');
+        cp.addEventListener('mouseenter', () => { hot = true; document.getElementById('wheel-svg').classList.add('hot'); document.getElementById('wl-hint').textContent = 'SCROLL · CLICK' });
+        cp.addEventListener('mouseleave', () => { hot = false; document.getElementById('wheel-svg').classList.remove('hot'); document.getElementById('wl-hint').textContent = 'HOVER + SCROLL' });
+        window.addEventListener('wheel', e => { if (!hot || locked) return; e.preventDefault(); locked = true; stepWheel(e.deltaY > 0 ? 1 : -1); setTimeout(() => { locked = false }, 300) }, { passive: false });
+        cp.addEventListener('click', () => { if (!hot) return; openSection() });
+        function stepWheel(dir) { cur_ = ((cur_ + dir) + N) % N; tRot -= dir * (360 / N); refresh(); cancelAnimationFrame(raf); spin() }
+        function openSection() {
+            const s = SEC[cur_]; if (s === 'EXPERIENCE') return; if (s === 'HOME') { location.href = 'index.html'; return } if (s === 'SKILLS') { location.href = 'skills.html'; return }
+            document.getElementById('ov-title').textContent = s; document.getElementById('ov-sub').textContent = '[ ' + s + ' — COMING SOON ]'; document.getElementById('overlay').classList.add('vis')
+        }
+        document.getElementById('nav-prev').addEventListener('click', e => { e.stopPropagation(); stepWheel(-1) });
+        document.getElementById('nav-next').addEventListener('click', e => { e.stopPropagation(); stepWheel(1) });
+        let tx = 0, ty = 0;
+        cp.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY }, { passive: true });
+        cp.addEventListener('touchend', e => { if (locked) return; const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty, ax = Math.abs(dx), ay = Math.abs(dy); if (Math.max(ax, ay) < 30) return; locked = true; stepWheel(ax >= ay ? (dx > 0 ? 1 : -1) : (dy > 0 ? 1 : -1)); setTimeout(() => { locked = false }, 300) }, { passive: true });
+
+        /* MATRIX RAIN */
+        (function () {
+            const cv = document.getElementById('rain-canvas'), c = cv.getContext('2d');
+            function rs() { cv.width = innerWidth; cv.height = innerHeight } rs(); window.addEventListener('resize', rs);
+            const cols = Math.floor(innerWidth / 18), dr = Array(cols).fill(0).map(() => Math.random() * -60);
+            function draw() {
+                c.fillStyle = 'rgba(0,0,0,0.05)'; c.fillRect(0, 0, cv.width, cv.height); c.font = '11px "Share Tech Mono"';
+                dr.forEach((y, i) => { c.fillStyle = Math.random() > .97 ? '#00ff99' : '#001a0a'; c.fillText(Math.random() > .5 ? '1' : '0', i * 18, y * 18); if (y * 18 > cv.height && Math.random() > .978) dr[i] = 0; dr[i] += .35 }); requestAnimationFrame(draw)
+            } draw()
+        })();
+    </script>
+</body>
+
+</html>

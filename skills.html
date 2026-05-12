@@ -614,7 +614,7 @@
                 <button id="nav-prev" aria-label="Previous section">◀</button>
                 <button id="nav-next" aria-label="Next section">▶</button>
             </div>
-            <button class="wheel-enter-btn" id="nav-enter">ENTER ↵</button>
+
         </div>
     </div>
 
@@ -747,6 +747,7 @@
             const s = SEC[cur_];
             if (s === 'SKILLS') return; // already here
             if (s === 'HOME') { window.location.href = 'index.html'; return; }
+            if (s === 'EXPERIENCE') { window.location.href = 'experience.html'; return; }
             document.getElementById('ov-title').textContent = s;
             document.getElementById('ov-sub').textContent = '[ ' + s + ' — COMING SOON ]';
             document.getElementById('overlay').classList.add('vis');
@@ -755,7 +756,7 @@
         /* Mobile: prev / next buttons */
         document.getElementById('nav-prev').addEventListener('click', (e) => { e.stopPropagation(); stepWheel(-1); });
         document.getElementById('nav-next').addEventListener('click', (e) => { e.stopPropagation(); stepWheel(1); });
-        document.getElementById('nav-enter').addEventListener('click', (e) => { e.stopPropagation(); openSection(); });
+
 
         /* Mobile: swipe on wheel */
         let touchStartX = 0, touchStartY = 0;
