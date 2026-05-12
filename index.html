@@ -143,7 +143,7 @@
 
         .greet {
             font-size: 17px;
-            color: var(--c10);
+            color: hsl(168, 50%, 45%);
             letter-spacing: 3px;
             margin-bottom: 18px;
             opacity: 0;
@@ -151,7 +151,7 @@
         }
 
         #name-art {
-            font-family: 'Share Tech Mono', monospace;
+            font-family: 'Boston Traffic', monospace;
             font-size: 12.2px;
             line-height: 1.05;
             letter-spacing: 1.00px;
@@ -164,10 +164,10 @@
 
         .intro {
             font-size: 20px;
-            color: var(--c10);
+            color: hsl(170, 55%, 48%);
             letter-spacing: 2px;
             line-height: 1.9;
-            border-left: 1.5px solid var(--c8);
+            border-left: 1.5px solid hsl(168, 50%, 40%);
             padding-left: 14px;
             opacity: 0;
             animation: fadeUp .5s .9s forwards;
@@ -343,6 +343,227 @@
                 opacity: 1;
             }
         }
+
+        /* ── WHEEL NAV BUTTONS (mobile) ── */
+        .wheel-nav {
+            display: none;
+            position: absolute;
+            bottom: -44px;
+            left: 50%;
+            transform: translateX(-50%);
+            gap: 18px;
+            z-index: 25;
+        }
+
+        .wheel-nav button {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 18px;
+            color: var(--glow);
+            background: rgba(0, 26, 10, 0.7);
+            border: 1px solid var(--c7);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all .2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .wheel-nav button:active {
+            background: var(--c5);
+            border-color: var(--glow);
+        }
+
+        .wheel-enter-btn {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--glow);
+            background: rgba(0, 26, 10, 0.7);
+            border: 1px solid var(--c7);
+            padding: 8px 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: none;
+            position: absolute;
+            bottom: -86px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
+            transition: all .2s;
+        }
+
+        .wheel-enter-btn:active {
+            background: var(--c5);
+            border-color: var(--glow);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            #app {
+                grid-template-columns: 1fr 260px 1fr;
+            }
+
+            #left {
+                padding: 0 20px 0 40px;
+            }
+
+            #name-art {
+                font-size: 10px;
+            }
+
+            .greet {
+                font-size: 15px;
+            }
+
+            .intro {
+                font-size: 17px;
+            }
+
+            #wheel-wrap {
+                width: 230px;
+                height: 230px;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            html,
+            body {
+                overflow-y: auto;
+                overflow-x: hidden;
+                cursor: default;
+            }
+
+            #cursor,
+            #cursor-dot {
+                display: none;
+            }
+
+            #app {
+                position: relative;
+                inset: auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-height: 100vh;
+                padding: 30px 20px 40px;
+                gap: 36px;
+            }
+
+            #left {
+                padding: 0;
+                align-items: center;
+                text-align: center;
+                order: 1;
+            }
+
+            .intro {
+                border-left: none;
+                padding-left: 0;
+                border-top: 1.5px solid hsl(168, 50%, 40%);
+                padding-top: 12px;
+                font-size: 16px;
+            }
+
+            #name-art {
+                font-size: 8px;
+                text-align: center;
+            }
+
+            .greet {
+                font-size: 14px;
+            }
+
+            #center {
+                order: 2;
+            }
+
+            #wheel-wrap {
+                width: 240px;
+                height: 240px;
+            }
+
+            .wheel-nav {
+                display: flex;
+            }
+
+            .wheel-enter-btn {
+                display: block;
+            }
+
+            #wl-hint {
+                display: none;
+            }
+
+            #right {
+                order: 3;
+                width: 100%;
+                max-width: 340px;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #photo {
+                max-height: 55vh;
+                width: 100%;
+                object-fit: contain;
+            }
+
+            #photo-fade {
+                height: 100px;
+            }
+
+            #photo-fade-top {
+                height: 60px;
+            }
+
+            #vignette {
+                display: none;
+            }
+
+            .corner {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #name-art {
+                font-size: 6.5px;
+            }
+
+            .greet {
+                font-size: 13px;
+            }
+
+            .intro {
+                font-size: 14px;
+                line-height: 1.7;
+            }
+
+            #wheel-wrap {
+                width: 210px;
+                height: 210px;
+            }
+
+            #right {
+                max-width: 280px;
+            }
+
+            #photo {
+                max-height: 45vh;
+            }
+
+            #ov-title {
+                font-size: 36px;
+                letter-spacing: 6px;
+            }
+
+            #ov-sub {
+                font-size: 10px;
+            }
+        }
     </style>
 </head>
 
@@ -410,6 +631,11 @@
                     <span id="wl-name">HOME</span>
                     <span id="wl-hint">HOVER + SCROLL</span>
                 </div>
+                <div class="wheel-nav">
+                    <button id="nav-prev" aria-label="Previous section">◀</button>
+                    <button id="nav-next" aria-label="Next section">▶</button>
+                </div>
+                <button class="wheel-enter-btn" id="nav-enter">ENTER ↵</button>
             </div>
         </div>
 
@@ -549,28 +775,70 @@
         build();
 
         const cp = document.getElementById('center');
+        const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
         cp.addEventListener('mouseenter', () => { hot = true; document.getElementById('wheel-svg').classList.add('hot'); document.getElementById('wl-hint').textContent = 'SCROLL · CLICK ENTER'; });
         cp.addEventListener('mouseleave', () => { hot = false; document.getElementById('wheel-svg').classList.remove('hot'); document.getElementById('wl-hint').textContent = 'HOVER + SCROLL'; });
 
+        /* Desktop: scroll to rotate */
         window.addEventListener('wheel', e => {
             if (!hot || locked) return;
             e.preventDefault();
             locked = true;
             const dir = e.deltaY > 0 ? 1 : -1;
+            stepWheel(dir);
+            setTimeout(() => { locked = false; }, 300);
+        }, { passive: false });
+
+        /* Desktop: click to enter */
+        cp.addEventListener('click', () => {
+            if (!hot || SEC[cur_] === 'HOME') return;
+            openSection();
+        });
+
+        /* Shared helpers */
+        function stepWheel(dir) {
             cur_ = ((cur_ + dir) + N) % N;
             tRot -= dir * (360 / N);
             refresh();
             cancelAnimationFrame(raf);
             spin();
-            setTimeout(() => { locked = false; }, 300);
-        }, { passive: false });
+        }
 
-        cp.addEventListener('click', () => {
-            if (!hot || SEC[cur_] === 'HOME') return;
+        function openSection() {
+            if (SEC[cur_] === 'HOME') return;
             document.getElementById('ov-title').textContent = SEC[cur_];
             document.getElementById('ov-sub').textContent = '[ ' + SEC[cur_] + ' — COMING SOON ]';
             document.getElementById('overlay').classList.add('vis');
-        });
+        }
+
+        /* Mobile: prev / next buttons */
+        document.getElementById('nav-prev').addEventListener('click', (e) => { e.stopPropagation(); stepWheel(-1); });
+        document.getElementById('nav-next').addEventListener('click', (e) => { e.stopPropagation(); stepWheel(1); });
+        document.getElementById('nav-enter').addEventListener('click', (e) => { e.stopPropagation(); openSection(); });
+
+        /* Mobile: swipe on wheel */
+        let touchStartX = 0, touchStartY = 0;
+        cp.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        cp.addEventListener('touchend', (e) => {
+            if (locked) return;
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            const dy = e.changedTouches[0].clientY - touchStartY;
+            const absDx = Math.abs(dx), absDy = Math.abs(dy);
+            if (Math.max(absDx, absDy) < 30) return; // too short, ignore
+            locked = true;
+            // Use the axis with greater movement
+            if (absDx >= absDy) {
+                stepWheel(dx > 0 ? 1 : -1);
+            } else {
+                stepWheel(dy > 0 ? 1 : -1);
+            }
+            setTimeout(() => { locked = false; }, 300);
+        }, { passive: true });
 
         /* MATRIX RAIN */
         (function () {
