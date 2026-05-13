@@ -797,7 +797,7 @@
         cp.addEventListener('click', () => { if (!hot) return; openSection() });
         function stepWheel(dir) { cur_ = ((cur_ + dir) + N) % N; tRot -= dir * (360 / N); refresh(); cancelAnimationFrame(raf); spin() }
         function openSection() {
-            const s = SEC[cur_]; if (s === 'EXPERIENCE') return; if (s === 'HOME') { location.href = 'index.html'; return } if (s === 'SKILLS') { location.href = 'skills.html'; return } if (s === 'ABOUT') { location.href = 'about.html'; return }
+            const s = SEC[cur_]; if (s === 'EXPERIENCE') return; if (s === 'HOME') { location.href = 'index.html'; return } if (s === 'SKILLS') { location.href = 'skills.html'; return } if (s === 'ABOUT') { location.href = 'about.html'; return } if (s === 'PROJECTS') { location.href = 'projects.html'; return }
             document.getElementById('ov-title').textContent = s; document.getElementById('ov-sub').textContent = '[ ' + s + ' — COMING SOON ]'; document.getElementById('overlay').classList.add('vis')
         }
         document.getElementById('nav-prev').addEventListener('click', e => { e.stopPropagation(); stepWheel(-1) });

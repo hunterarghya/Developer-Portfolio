@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PROJECTS — ARGHYA MALAKAR</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+:root{--c0:#000;--c1:#001000;--c2:#001010;--c3:#002010;--c4:#002020;--c5:#003030;--c6:#103020;--c7:#104040;--c8:#105050;--c9:#106060;--glow:#00ff99;--heading:var(--glow);--desc:hsl(168,50%,45%)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#000;font-family:'Share Tech Mono',monospace;overflow:hidden;cursor:none}
+#cursor{position:fixed;width:10px;height:10px;border:1px solid var(--glow);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cursor-dot{position:fixed;width:3px;height:3px;background:var(--glow);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#scanlines{position:fixed;inset:0;background:repeating-linear-gradient(to bottom,transparent 0px,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:100}
+#grid-bg{position:fixed;inset:0;background-image:linear-gradient(var(--c1) 1px,transparent 1px),linear-gradient(90deg,var(--c1) 1px,transparent 1px);background-size:40px 40px;opacity:.35;z-index:0}
+#rain-canvas{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.08}
+/* PAGE TITLE — top left like "VISION" */
+#page-title{position:fixed;top:28px;left:32px;font-family:'VT323',monospace;font-size:42px;color:var(--glow);letter-spacing:10px;z-index:50;pointer-events:none}
+#page-sub{position:fixed;top:76px;left:34px;font-size:9px;color:var(--c8);letter-spacing:3px;z-index:50;pointer-events:none}
+/* DIVIDER LINE */
+#divider{position:fixed;top:95px;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--c5),var(--glow) 30%,var(--glow) 70%,var(--c5));opacity:.3;z-index:10}
+/* LAYOUT */
+#app{position:fixed;top:100px;left:0;right:0;bottom:50px;display:flex;z-index:10}
+/* LEFT PANEL — project list */
+#left-panel{width:42%;border-right:1px solid var(--c4);overflow-y:auto;padding:10px 0;scrollbar-width:thin;scrollbar-color:var(--c5) transparent}
+#left-panel::-webkit-scrollbar{width:3px}
+#left-panel::-webkit-scrollbar-thumb{background:var(--c5)}
+.proj-item{padding:12px 24px;border-bottom:1px solid rgba(0,32,32,.4);cursor:pointer;transition:background .15s;position:relative}
+.proj-item:hover{background:rgba(0,26,10,.4)}
+.proj-item.active{background:rgba(0,26,10,.6);border-left:3px solid var(--glow)}
+.proj-item.active .proj-title{color:var(--glow)}
+.proj-title{font-size:13px;color:var(--heading);letter-spacing:2px;margin-bottom:4px;transition:color .15s}
+.proj-tag{font-size:10px;color:var(--desc);letter-spacing:1px;line-height:1.4}
+.proj-idx{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-family:'VT323',monospace;font-size:14px;color:var(--c7)}
+/* RIGHT PANEL */
+#right-panel{flex:1;display:flex;flex-direction:column;overflow:hidden}
+/* TAB BAR — like vision/hearing/motor tabs */
+#tab-bar{display:flex;border-bottom:1px solid var(--c4);padding:0 16px;flex-shrink:0;min-height:36px;align-items:stretch}
+.tab{padding:8px 16px;font-size:10px;letter-spacing:2px;color:var(--c8);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.tab:hover{color:var(--glow)}
+.tab.active{color:var(--glow);border-bottom-color:var(--glow)}
+.tab svg{width:14px;height:14px;fill:currentColor}
+/* CONTENT AREA */
+#content-area{flex:1;overflow-y:auto;padding:24px 28px;scrollbar-width:thin;scrollbar-color:var(--c5) transparent}
+#content-area::-webkit-scrollbar{width:3px}
+#content-area::-webkit-scrollbar-thumb{background:var(--c5)}
+.content-title{font-family:'VT323',monospace;font-size:22px;color:var(--glow);letter-spacing:4px;margin-bottom:14px}
+.content-text{font-size:11px;color:var(--desc);line-height:1.9;letter-spacing:.5px;white-space:pre-wrap}
+.content-text b,.content-text strong{color:var(--glow);font-weight:normal}
+/* OVERVIEW IMAGE */
+.overview-wrap{display:flex;gap:24px}
+.overview-text{flex:1}
+.overview-img{width:260px;flex-shrink:0;border:1px solid var(--c4);background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden;max-height:200px}
+.overview-img img{width:100%;height:100%;object-fit:cover}
+.overview-img .no-img{font-size:9px;color:var(--c7);letter-spacing:2px}
+/* DEMO SLIDER */
+.demo-slider{position:relative}
+.demo-media{width:100%;border:1px solid var(--c4);background:#000;min-height:200px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:10px}
+.demo-media img,.demo-media video{max-width:100%;max-height:400px;object-fit:contain}
+.demo-caption{font-size:10px;color:var(--desc);letter-spacing:1px;margin-bottom:10px;text-align:center}
+.demo-controls{display:flex;justify-content:center;align-items:center;gap:16px}
+.demo-btn{font-family:'Share Tech Mono',monospace;font-size:16px;color:var(--glow);background:rgba(0,26,10,.7);border:1px solid var(--c7);width:34px;height:34px;border-radius:50%;cursor:pointer;transition:all .15s}
+.demo-btn:hover{border-color:var(--glow);background:rgba(0,26,10,.9)}
+.demo-counter{font-size:9px;color:var(--c8);letter-spacing:2px}
+/* NAV BAR — bottom right like game controls */
+#nav-bar{position:fixed;bottom:14px;right:20px;display:flex;gap:12px;z-index:50}
+.nav-btn{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--c8);letter-spacing:2px;padding:6px 14px;border:1px solid var(--c4);background:rgba(0,0,0,.7);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:8px}
+.nav-btn:hover{color:var(--glow);border-color:var(--glow);background:rgba(0,26,10,.7)}
+.nav-key{font-family:'VT323',monospace;font-size:12px;color:var(--c9);background:var(--c4);padding:2px 6px;letter-spacing:1px}
+/* EMPTY STATE */
+.empty{display:flex;align-items:center;justify-content:center;height:100%;font-size:11px;color:var(--c7);letter-spacing:3px}
+/* RESPONSIVE */
+@media(max-width:768px){
+ html,body{overflow-y:auto;overflow-x:hidden;cursor:default}
+ #cursor,#cursor-dot{display:none}
+ #page-title{font-size:28px;top:14px;left:16px;letter-spacing:6px}
+ #page-sub{top:48px;left:18px;font-size:8px}
+ #divider{top:62px}
+ #app{position:relative;top:auto;bottom:auto;flex-direction:column;min-height:calc(100vh - 110px);margin-top:68px}
+ #left-panel{width:100%;border-right:none;border-bottom:1px solid var(--c4);max-height:40vh;overflow-y:auto}
+ #right-panel{min-height:50vh}
+ #nav-bar{position:relative;bottom:auto;right:auto;justify-content:center;padding:16px;flex-wrap:wrap}
+ .overview-wrap{flex-direction:column}
+ .overview-img{width:100%;max-height:160px}
+ .proj-item{padding:10px 16px}
+}
+@media(max-width:480px){
+ #page-title{font-size:22px;letter-spacing:4px}
+ .proj-title{font-size:11px}
+ .tab{padding:6px 10px;font-size:9px;letter-spacing:1px}
+ #content-area{padding:16px}
+}
+</style>
+</head>
+<body>
+<div id="cursor"></div><div id="cursor-dot"></div>
+<div id="scanlines"></div><div id="grid-bg"></div>
+<canvas id="rain-canvas"></canvas>
+
+<div id="page-title">PROJECTS</div>
+<div id="page-sub">SELECT A PROJECT TO VIEW DETAILS</div>
+<div id="divider"></div>
+
+<div id="app">
+ <div id="left-panel"></div>
+ <div id="right-panel">
+  <div id="tab-bar"></div>
+  <div id="content-area"><div class="empty">← SELECT A PROJECT</div></div>
+ </div>
+</div>
+
+<div id="nav-bar"></div>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cursor'),dot=document.getElementById('cursor-dot');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px'});
+
+/* ── PROJECT DATA — edit this JSON to manage your projects ── */
+const PROJECTS=[
+{title:"Project Alpha",tagline:"AI-powered document analysis platform",
+ overview:{text:"A comprehensive document analysis platform that leverages <b>large language models</b> to extract insights, summarize content, and answer questions about uploaded documents.\n\nBuilt with a <b>FastAPI</b> backend and <b>React</b> frontend, it supports PDF, DOCX, and plain text files with real-time streaming responses.",image:""},
+ userManual:"<b>Getting Started</b>\n\n1. Upload a document using the drag-and-drop zone\n2. Wait for the processing indicator to complete\n3. Use the chat interface to ask questions\n4. Export results using the download button\n\n<b>Supported Formats</b>\nPDF, DOCX, TXT, MD, CSV",
+ demo:{items:[{file:"",caption:"Document upload interface"},{file:"",caption:"Chat with your document"},{file:"",caption:"Export and sharing options"}]},
+ devNotes:"<b>Architecture</b>\nMicroservices pattern with RabbitMQ message queue\n\n<b>Stack</b>\nPython, FastAPI, React, PostgreSQL, Redis\n\n<b>Challenges</b>\nHandling large PDF parsing efficiently required chunking strategy with overlap for context preservation.",
+ github:"https://github.com/"},
+
+{title:"Project Beta",tagline:"Real-time collaborative code editor",
+ overview:{text:"A browser-based <b>collaborative code editor</b> supporting multiple cursors, live preview, and integrated terminal.\n\nFeatures include syntax highlighting for 40+ languages, <b>WebSocket</b>-based real-time sync, and Git integration.",image:""},
+ userManual:"<b>Usage</b>\n\n1. Create or join a room\n2. Share the room link with collaborators\n3. Code together in real-time\n4. Use the integrated terminal for running code",
+ demo:{items:[{file:"",caption:"Collaborative editing in action"}]},
+ devNotes:"<b>Tech Stack</b>\nNode.js, Socket.io, Monaco Editor, Docker\n\n<b>Key Decision</b>\nUsed OT (Operational Transform) for conflict resolution.",
+ github:"https://github.com/"},
+
+{title:"Project Gamma",tagline:"Automated HR recruitment pipeline",
+ overview:{text:"An end-to-end <b>recruitment automation</b> system that scans resumes, ranks candidates using AI, and manages the interview pipeline.\n\nIncludes <b>email automation</b>, calendar integration, and a dashboard for HR teams.",image:""},
+ userManual:"<b>For HR Admins</b>\n\n1. Create a job posting\n2. Upload candidate resumes (bulk)\n3. Review AI-ranked shortlist\n4. Send interview invitations\n5. Track pipeline progress",
+ devNotes:"<b>AI Model</b>\nFine-tuned embedding model for resume-job matching\n\n<b>Stack</b>\nDjango, PostgreSQL, Celery, React",
+ github:""},
+
+{title:"Project Delta",tagline:"IoT dashboard for smart agriculture",
+ overview:{text:"A real-time <b>IoT monitoring dashboard</b> for smart farming. Tracks soil moisture, temperature, humidity, and light levels from distributed sensors.\n\nFeatures automated irrigation triggers and <b>predictive analytics</b> for crop health.",image:""},
+ devNotes:"<b>Hardware</b>\nESP32 sensors, MQTT protocol\n\n<b>Backend</b>\nGo, InfluxDB, Grafana\n\n<b>Frontend</b>\nNuxt.js with real-time WebSocket feeds",
+ github:"https://github.com/"},
+
+{title:"Project Epsilon",tagline:"E-commerce platform with AI recommendations",
+ overview:{text:"A full-featured <b>e-commerce platform</b> with personalized product recommendations powered by collaborative filtering.\n\nIncludes payment processing, inventory management, and an admin dashboard.",image:""},
+ userManual:"<b>Shopping</b>\n\n1. Browse categories or use search\n2. Add items to cart\n3. Checkout with Stripe\n4. Track your order in real-time",
+ demo:{items:[{file:"",caption:"Product browsing experience"},{file:"",caption:"AI-powered recommendations"}]},
+ devNotes:"<b>Recommendation Engine</b>\nHybrid collaborative + content-based filtering\n\n<b>Stack</b>\nNext.js, MongoDB, Redis, Stripe API",
+ github:"https://github.com/"},
+
+{title:"Project Zeta",tagline:"CLI tool for cloud infrastructure management",
+ overview:{text:"A powerful <b>CLI tool</b> for managing multi-cloud infrastructure. Supports AWS, GCP, and Azure with a unified command interface.\n\nFeatures include <b>infrastructure-as-code</b> templates and cost optimization reports.",image:""},
+ devNotes:"<b>Language</b>\nGo with Cobra CLI framework\n\n<b>Features</b>\nTerraform integration, cost analysis, drift detection",
+ github:"https://github.com/"},
+
+{title:"Project Eta",tagline:"Social media analytics dashboard",
+ overview:{text:"A <b>social media analytics</b> platform that aggregates data from Twitter, Instagram, and LinkedIn. Provides sentiment analysis, engagement metrics, and content performance insights.",image:""},
+ demo:{items:[{file:"",caption:"Analytics overview dashboard"},{file:"",caption:"Sentiment analysis view"}]},
+ devNotes:"<b>Data Pipeline</b>\nApache Kafka for real-time ingestion\n\n<b>ML</b>\nBERT-based sentiment classifier\n\n<b>Frontend</b>\nVue.js with D3.js charts"},
+
+{title:"Project Theta",tagline:"Markdown-based knowledge base system",
+ overview:{text:"A self-hosted <b>knowledge base</b> that renders Markdown files into a searchable, interlinked wiki. Features full-text search, tags, and automatic backlink detection.",image:""},
+ userManual:"<b>Writing</b>\n\n1. Create .md files in the content directory\n2. Use [[wiki-links]] for interlinking\n3. Add tags with #hashtags\n4. Search across all documents",
+ github:"https://github.com/"},
+
+{title:"Project Iota",tagline:"Multiplayer browser game engine",
+ overview:{text:"A lightweight <b>2D game engine</b> for building multiplayer browser games. Includes physics, collision detection, sprite management, and <b>WebRTC</b>-based peer-to-peer networking.",image:""},
+ demo:{items:[{file:"",caption:"Game editor interface"},{file:"",caption:"Multiplayer gameplay demo"}]},
+ devNotes:"<b>Rendering</b>\nHTML5 Canvas with requestAnimationFrame\n\n<b>Networking</b>\nWebRTC DataChannels for low-latency P2P\n\n<b>Physics</b>\nCustom SAT collision detection",
+ github:"https://github.com/"}
+];
+
+let activeProject=0,activeTab='overview';
+
+/* BUILD LEFT PANEL */
+function buildList(){
+ const lp=document.getElementById('left-panel');lp.innerHTML='';
+ PROJECTS.forEach((p,i)=>{
+  const d=document.createElement('div');d.className='proj-item'+(i===activeProject?' active':'');
+  d.innerHTML='<div class="proj-title">'+p.title+'</div><div class="proj-tag">'+p.tagline+'</div><span class="proj-idx">'+String(i+1).padStart(2,'0')+'</span>';
+  d.addEventListener('click',()=>{activeProject=i;activeTab='overview';buildList();buildTabs();renderContent()});
+  lp.appendChild(d);
+ });
+}
+
+/* BUILD TAB BAR */
+function buildTabs(){
+ const tb=document.getElementById('tab-bar');tb.innerHTML='';
+ const p=PROJECTS[activeProject];
+ const tabs=[];
+ if(p.overview)tabs.push({id:'overview',label:'OVERVIEW'});
+ if(p.userManual)tabs.push({id:'userManual',label:'USER MANUAL'});
+ if(p.demo&&p.demo.items&&p.demo.items.length)tabs.push({id:'demo',label:'DEMO'});
+ if(p.devNotes)tabs.push({id:'devNotes',label:'DEV NOTES'});
+ if(p.github)tabs.push({id:'github',label:'',icon:true});
+ if(!tabs.find(t=>t.id===activeTab))activeTab=tabs[0]?.id||'overview';
+ tabs.forEach(t=>{
+  const d=document.createElement('div');d.className='tab'+(t.id===activeTab?' active':'');
+  if(t.icon){
+   d.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> GITHUB';
+   d.addEventListener('click',()=>window.open(p.github,'_blank'));
+  }else{
+   d.textContent=t.label;
+   d.addEventListener('click',()=>{activeTab=t.id;buildTabs();renderContent()});
+  }
+  tb.appendChild(d);
+ });
+}
+
+/* RENDER CONTENT */
+let demoIdx=0;
+function renderContent(){
+ const ca=document.getElementById('content-area');
+ const p=PROJECTS[activeProject];
+ if(activeTab==='overview'&&p.overview){
+  const hasImg=p.overview.image;
+  ca.innerHTML='<div class="overview-wrap"><div class="overview-text"><div class="content-title">'+p.title+'</div><div class="content-text">'+p.overview.text+'</div></div>'+(hasImg?'<div class="overview-img"><img src="'+p.overview.image+'" onerror="this.parentElement.innerHTML=\'<div class=no-img>NO IMAGE</div>\'"></div>':'')+'</div>';
+ }else if(activeTab==='userManual'&&p.userManual){
+  ca.innerHTML='<div class="content-title">USER MANUAL</div><div class="content-text">'+p.userManual+'</div>';
+ }else if(activeTab==='demo'&&p.demo){
+  demoIdx=0;renderDemo(ca,p);
+ }else if(activeTab==='devNotes'&&p.devNotes){
+  ca.innerHTML='<div class="content-title">DEV NOTES</div><div class="content-text">'+p.devNotes+'</div>';
+ }else{
+  ca.innerHTML='<div class="empty">NO CONTENT</div>';
+ }
+}
+
+function renderDemo(ca,p){
+ const items=p.demo.items;const item=items[demoIdx];
+ const isVideo=item.file&&(item.file.endsWith('.mp4')||item.file.endsWith('.webm'));
+ let media='';
+ if(item.file){
+  media=isVideo?'<video src="'+item.file+'" controls></video>':'<img src="'+item.file+'" onerror="this.outerHTML=\'<div class=no-img>NO MEDIA</div>\'">';
+ }else{media='<div class="no-img">NO MEDIA FILE</div>'}
+ ca.innerHTML='<div class="demo-slider">'+(item.caption?'<div class="demo-caption">'+item.caption+'</div>':'')+'<div class="demo-media">'+media+'</div><div class="demo-controls"><button class="demo-btn" id="demo-prev">◀</button><div class="demo-counter">'+(demoIdx+1)+' / '+items.length+'</div><button class="demo-btn" id="demo-next">▶</button></div></div>';
+ document.getElementById('demo-prev').onclick=()=>{demoIdx=(demoIdx-1+items.length)%items.length;renderDemo(ca,p)};
+ document.getElementById('demo-next').onclick=()=>{demoIdx=(demoIdx+1)%items.length;renderDemo(ca,p)};
+}
+
+/* BUILD NAV BAR — bottom right, like game control hints */
+function buildNav(){
+ const nb=document.getElementById('nav-bar');nb.innerHTML='';
+ const pages=[{key:'H',label:'Home',href:'index.html'},{key:'S',label:'Skills',href:'skills.html'},{key:'E',label:'Experience',href:'experience.html'},{key:'A',label:'About',href:'about.html'}];
+ pages.forEach(p=>{
+  const b=document.createElement('div');b.className='nav-btn';
+  b.innerHTML='<span class="nav-key">'+p.key+'</span> '+p.label;
+  b.addEventListener('click',()=>location.href=p.href);
+  nb.appendChild(b);
+ });
+ // keyboard shortcuts
+ document.addEventListener('keydown',e=>{
+  const k=e.key.toUpperCase();
+  const match=pages.find(p=>p.key===k);
+  if(match)location.href=match.href;
+ });
+}
+
+/* INIT */
+buildList();buildTabs();renderContent();buildNav();
+
+/* MATRIX RAIN */
+(function(){const cv=document.getElementById('rain-canvas'),c=cv.getContext('2d');
+function rs(){cv.width=innerWidth;cv.height=innerHeight}rs();window.addEventListener('resize',rs);
+const cols=Math.floor(innerWidth/18),dr=Array(cols).fill(0).map(()=>Math.random()*-60);
+function draw(){c.fillStyle='rgba(0,0,0,0.05)';c.fillRect(0,0,cv.width,cv.height);c.font='11px "Share Tech Mono"';
+dr.forEach((y,i)=>{c.fillStyle=Math.random()>.97?'#00ff99':'#001a0a';c.fillText(Math.random()>.5?'1':'0',i*18,y*18);if(y*18>cv.height&&Math.random()>.978)dr[i]=0;dr[i]+=.35});requestAnimationFrame(draw)}draw()})();
+</script>
+</body>
+</html>
