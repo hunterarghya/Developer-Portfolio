@@ -601,7 +601,7 @@
         <div id="left">
             <p class="greet">Hii, I'm</p>
             <pre id="name-art"></pre>
-            <p class="intro">I build backends, AI agents<br>and games.</p>
+            <p class="intro">Making humans out of Internet,<br> for taking humans out of Internet.<br></p>
         </div>
 
         <div id="center">
@@ -702,7 +702,7 @@
             renderLine('ARGHYA') + '\n' + renderLine('MALAKAR');
 
         /* ── WEAPON WHEEL ── */
-        const SEC = ['HOME', 'PROJECTS', 'SKILLS', 'EXPERIENCE', 'ABOUT'];
+        const SEC = ['HOME', 'MISSIONS', 'ARSENAL', 'STORYLINE', 'LORE'];
         const N = SEC.length, SL = (2 * Math.PI) / N;
         const RO = 128, RI = 88, RL = 108;
         let cur_ = 0, wRot = 0, tRot = 0, raf = null, hot = false, locked = false;
@@ -795,19 +795,19 @@
             if (!hot) return;
             const s = SEC[cur_];
             if (s === 'HOME') return;
-            if (s === 'SKILLS') {
+            if (s === 'ARSENAL') {
                 window.location.href = 'skills.html';
                 return;
             }
-            if (s === 'EXPERIENCE') {
+            if (s === 'STORYLINE') {
                 window.location.href = 'experience.html';
                 return;
             }
-            if (s === 'ABOUT') {
+            if (s === 'LORE') {
                 window.location.href = 'about.html';
                 return;
             }
-            if (s === 'PROJECTS') {
+            if (s === 'MISSIONS') {
                 window.location.href = 'projects.html';
                 return;
             }

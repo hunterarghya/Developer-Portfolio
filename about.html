@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABOUT — ARGHYA MALAKAR</title>
+    <title>LORE — ARGHYA MALAKAR</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
 
@@ -154,7 +154,7 @@
             fill: var(--glow)
         }
 
-        /* ABOUT BOX — right of the centered dial */
+        /* LORE BOX — right of the centered dial */
         #about-box {
             position: fixed;
             left: calc(50% + 160px);
@@ -480,18 +480,21 @@
             </svg></a>
     </div>
 
-    <!-- ABOUT INFO BOX -->
+    <!-- LORE INFO BOX -->
     <div id="about-box">
-        <div id="about-heading">ABOUT</div>
+        <div id="about-heading">LORE</div>
         <div id="about-text">
-            I am a passionate <span class="hl">full-stack developer</span> and <span class="hl">AI engineer</span> with
-            a deep interest in building intelligent, scalable systems that push the boundaries of what's possible. From
-            crafting clean backend architectures to designing agentic AI workflows, I thrive at the intersection of
-            engineering and innovation.<br><br>
-            When I'm not writing code, you'll find me exploring new frameworks, contributing to open-source, or diving
-            into the latest research in <span class="hl">large language models</span> and <span class="hl">autonomous
-                agents</span>. I believe in building things that matter — software that solves real problems and
-            empowers people.
+            I’m a <span class="hl">backend developer</span> focused on building reliable systems, real-time
+            applications, and <span class="hl">AI-powered products</span> that solve real-world problems. My approach
+            always starts with the end-user experience: identifying friction points first, then architecting scalable
+            solutions around them.<br><br>
+
+            I enjoy exploring new technologies on the go, whether it’s automation pipelines, multiplayer systems,
+            intelligent search, or interactive platforms. I also have a strong interest in <span class="hl">game
+                development</span> and building systems that feel dynamic, social, and alive.<br><br>
+
+            Outside development, you’ll usually find me playing sports, planning future expeditions, reading classic
+            literature, exploring cinema, or learning guitar.
         </div>
     </div>
 
@@ -518,7 +521,7 @@
             <line x1="0" y1="-10" x2="0" y2="10" stroke="#106060" stroke-width="0.8" />
             <circle cx="0" cy="0" r="2.5" fill="#106060" />
         </svg>
-        <div id="wheel-label"><span id="wl-name">ABOUT</span><span id="wl-hint">HOVER + SCROLL</span></div>
+        <div id="wheel-label"><span id="wl-name">LORE</span><span id="wl-hint">HOVER + SCROLL</span></div>
         <div class="wheel-nav"><button id="nav-prev">◀</button><button id="nav-next">▶</button></div>
     </div>
 
@@ -536,7 +539,7 @@
 
 
         /* WHEEL */
-        const SEC = ['HOME', 'PROJECTS', 'SKILLS', 'EXPERIENCE', 'ABOUT'];
+        const SEC = ['HOME', 'MISSIONS', 'ARSENAL', 'STORYLINE', 'LORE'];
         const N = SEC.length, SL = (2 * Math.PI) / N, RO = 128, RI = 88, RL = 108;
         let cur_ = 4, wRot = 0, tRot = 0, raf = null, hot = false, locked = false;
         const ns = 'http://www.w3.org/2000/svg';
@@ -590,11 +593,11 @@
         function stepWheel(dir) { cur_ = ((cur_ + dir) + N) % N; tRot -= dir * (360 / N); refresh(); cancelAnimationFrame(raf); spin() }
         function openSection() {
             const s = SEC[cur_];
-            if (s === 'ABOUT') return;
+            if (s === 'LORE') return;
             if (s === 'HOME') { location.href = 'index.html'; return }
-            if (s === 'SKILLS') { location.href = 'skills.html'; return }
-            if (s === 'EXPERIENCE') { location.href = 'experience.html'; return }
-            if (s === 'PROJECTS') { location.href = 'projects.html'; return }
+            if (s === 'ARSENAL') { location.href = 'skills.html'; return }
+            if (s === 'STORYLINE') { location.href = 'experience.html'; return }
+            if (s === 'MISSIONS') { location.href = 'projects.html'; return }
             document.getElementById('ov-title').textContent = s;
             document.getElementById('ov-sub').textContent = '[ ' + s + ' — COMING SOON ]';
             document.getElementById('overlay').classList.add('vis');

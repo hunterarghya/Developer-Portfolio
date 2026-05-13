@@ -1,0 +1,27 @@
+{
+    "title": "Project Alpha",
+    "tagline": "AI-powered document analysis platform",
+    "overview": {
+        "text": "A comprehensive document analysis platform that leverages <b>large language models</b> to extract insights, summarize content, and answer questions about uploaded documents.\n\nBuilt with a <b>FastAPI</b> backend and <b>React</b> frontend, it supports PDF, DOCX, and plain text files with real-time streaming responses.",
+        "image": ""
+    },
+    "userManual": "<b>Getting Started</b>\n\n1. Upload a document using the drag-and-drop zone\n2. Wait for the processing indicator to complete\n3. Use the chat interface to ask questions\n4. Export results using the download button\n\n<b>Supported Formats</b>\nPDF, DOCX, TXT, MD, CSV",
+    "demo": {
+        "items": [
+            {
+                "file": "",
+                "caption": "Document upload interface"
+            },
+            {
+                "file": "",
+                "caption": "Chat with your document"
+            },
+            {
+                "file": "",
+                "caption": "Export and sharing options"
+            }
+        ]
+    },
+    "devNotes": "<b>Architecture</b>\nMicroservices pattern with RabbitMQ message queue\n\n<b>Stack</b>\nPython, FastAPI, React, PostgreSQL, Redis\n\n<b>Challenges</b>\nHandling large PDF parsing efficiently required chunking strategy with overlap for context preservation.",
+    "github": "https://github.com/"
+}
