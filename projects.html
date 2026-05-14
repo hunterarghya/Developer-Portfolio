@@ -262,6 +262,16 @@
             fill: currentColor
         }
 
+        .tab.live-tab {
+            color: #ff3333;
+            text-shadow: 0 0 8px rgba(255, 51, 51, 0.6);
+        }
+
+        .tab.live-tab:hover {
+            color: #ff6666;
+            text-shadow: 0 0 12px rgba(255, 102, 102, 0.8);
+        }
+
         /* CONTENT AREA */
         #content-area {
             flex: 1;
@@ -594,6 +604,8 @@
 
                 "tagline": "AI-powered HR automation platform for screening, scheduling, and candidate communication.",
 
+
+
                 "overview": {
                     "text": "HunterHR is an end-to-end recruitment automation platform designed to simplify how HR teams manage hiring workflows across email, WhatsApp, resumes, interviews, and candidate communication.\n\nThe platform allows recruiters to post job openings, automatically collect applicants from Gmail and WhatsApp groups, rank candidates using AI-powered matching, schedule interviews, and send interview invites or offer letters using customizable email templates.\n\nBuilt as a backend-first recruitment system, the platform focuses on reducing manual HR operations while providing intelligent candidate filtering, calendar synchronization, and workflow automation.",
                     "image": "hunterhr/interview.png"
@@ -642,6 +654,7 @@
             {
                 "title": "OldMonkey",
                 "tagline": "Real-time multiplayer competitive typing arena",
+                "live": "https://oldmonkey.onrender.com",
                 "overview": {
                     "text": "My journey of touch typing started back in high school. I spent months on keybr.com to unlearn bad habits and learn touch typing from scratch, then migrated to monkeytype.com to push my raw speed. Naturally, I wanted to build a tribute to the community that made me faster.\n\nOldMonkey is a <b>real-time multiplayer typing game</b> where players compete head-to-head, chasing live opponent cursors through paragraphs while WPM and accuracy update every keystroke.",
                     "image": "oldmonkey/dashboard.png"
@@ -672,6 +685,7 @@
                 "title": "Testron",
 
                 "tagline": "An evaluation platform with real-time testing, coding evaluation, and classroom management.",
+                "live": "https://online-assessment-platform-bv7r.onrender.com/",
 
                 "overview": {
                     "text": "An end-to-end online examination platform designed for coaching institutes, teachers, and students to conduct secure and scalable assessments.\n\nThe platform supports <b>MCQ</b>, <b>numerical</b>, and <b>coding-based</b> examinations with advanced evaluation logic inspired by competitive exams like JEE and NTA-based assessments.\n\nThe system includes separate teacher and student portals, classroom management, scheduled and deadline-based tests, automatic evaluation, topic-wise analytics, and isolated Docker sandboxes for executing programming questions securely."
@@ -778,6 +792,7 @@
                 "title": "Bluff Game",
 
                 "tagline": "A real-time multiplayer bluff card game with live chat and peer-to-peer video communication.",
+                "live": "https://live-bluff-game.onrender.com",
 
                 "overview": {
                     "text": "Bluff Game is a real-time multiplayer implementation of the classic <b>Bluff (Cheat)</b> card game designed for interactive online gameplay.\n\nThe platform allows players to create and join game rooms, play live matches with synchronized turns and card actions, communicate through in-room chat, and connect using built-in video and voice calling.\n\nThe experience combines competitive gameplay with social interaction, creating a lightweight virtual game room where players can bluff, challenge, react, and communicate in real time."
@@ -804,12 +819,14 @@
             },
 
             {
-                "title": "Gmail AI Organizer",
+                "title": "Gmail Organizer",
 
                 "tagline": "An AI-powered Gmail automation system for inbox organization, classification, and smart email workflows.",
+                "live": "https://mailpilot-74xq.onrender.com/",
+
 
                 "overview": {
-                    "text": "Gmail AI Organizer is an AI-driven inbox management platform designed to automate how users handle and organize their emails.\n\nThe system connects directly to Gmail accounts and uses intelligent agent workflows to scan inboxes, classify emails, generate summaries, draft responses, and perform automated cleanup actions such as archiving or deleting low-value messages.\n\nBuilt with a modular agent architecture, the platform focuses on reducing inbox overload while providing users with a cleaner, more organized email experience."
+                    "text": "Gmail Organizer is an AI-driven inbox management platform designed to automate how users handle and organize their emails.\n\nThe system connects directly to Gmail accounts and uses intelligent agent workflows to scan inboxes, classify emails, generate summaries, draft responses, and perform automated cleanup actions such as archiving or deleting low-value messages.\n\nBuilt with a modular agent architecture, the platform focuses on reducing inbox overload while providing users with a cleaner, more organized email experience."
                 },
 
                 "userManual": "<b>Inbox Automation</b>\n\n- Connect your Gmail account securely\n- Scan and analyze inbox activity\n- Automatically classify emails into categories\n- Identify important emails, OTPs, spam, and low-priority messages\n- Generate structured inbox summaries\n\n<b>AI Assistance</b>\n\n- Draft replies for urgent emails\n- Organize inbox content intelligently\n- Perform automated cleanup actions\n- Archive or delete unwanted emails\n\n<b>User Experience</b>\n\n- Centralized inbox organization\n- Reduced manual email management\n- Faster prioritization of important communication\n- Modular workflow designed for future automation upgrades",
@@ -853,6 +870,7 @@
                 "title": "Tubedown",
 
                 "tagline": "A lightweight media downloader for YouTube videos, playlists, audio, and subtitles.",
+                "live": "https://hunterarghya.github.io/Launch-page-for-TubeDown/",
 
                 "overview": {
                     "text": "A simple cross-platform downloader designed to make saving YouTube content fast and accessible.\n\nThe application allows users to download <b>single videos</b>, <b>entire playlists</b>, <b>audio as MP3</b>, and <b>subtitles in SRT format</b> through a clean and minimal interface.\n\nI initially built the project as a lightweight backend utility using <b>Python</b> and <b>FastAPI</b> to experiment with media streaming and download automation. Later, the project was migrated to a <b>Flutter mobile application</b> to provide a smoother mobile experience and better usability.",
@@ -870,6 +888,7 @@
                 "title": "OLX CGEC",
 
                 "tagline": "A college marketplace platform for buying, selling, and managing student listings securely.",
+                "live": "https://college-marketplace-6wry.onrender.com/",
 
                 "overview": {
                     "text": "OLX CGEC is a college-focused marketplace platform built to simplify buying and selling within the campus community.\n\nThe platform allows students to create listings, upload product images, manage their posts, and securely process payments through an integrated checkout flow.",
@@ -932,12 +951,20 @@
             if (p.demo && p.demo.items && p.demo.items.length) tabs.push({ id: 'demo', label: 'DEMO' });
             if (p.devNotes) tabs.push({ id: 'devNotes', label: 'DEV NOTES' });
             if (p.github) tabs.push({ id: 'github', label: '', icon: true });
+            if (p.live) tabs.push({ id: 'live', label: '● LIVE', isLive: true });
+
             if (!tabs.find(t => t.id === activeTab)) activeTab = tabs[0]?.id || 'overview';
+
             tabs.forEach(t => {
-                const d = document.createElement('div'); d.className = 'tab' + (t.id === activeTab ? ' active' : '');
+                const d = document.createElement('div');
+                d.className = 'tab' + (t.id === activeTab && !t.isLive && !t.icon ? ' active' : '') + (t.isLive ? ' live-tab' : '');
+
                 if (t.icon) {
                     d.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> GITHUB';
                     d.addEventListener('click', () => window.open(p.github, '_blank'));
+                } else if (t.isLive) {
+                    d.textContent = t.label;
+                    d.addEventListener('click', () => window.open(p.live, '_blank'));
                 } else {
                     d.textContent = t.label;
                     d.addEventListener('click', () => { activeTab = t.id; buildTabs(); renderContent() });
