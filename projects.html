@@ -90,6 +90,18 @@
             opacity: .08
         }
 
+        /* HEADER BG FOR MOBILE */
+        #header-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 96px;
+            background: #000;
+            z-index: 40;
+            display: none;
+        }
+
         /* PAGE TITLE — top left like "VISION" */
         #page-title {
             position: fixed;
@@ -123,7 +135,7 @@
             height: 1px;
             background: linear-gradient(90deg, var(--c5), var(--glow) 30%, var(--glow) 70%, var(--c5));
             opacity: .3;
-            z-index: 10
+            z-index: 50
         }
 
         /* LAYOUT */
@@ -169,11 +181,13 @@
 
         .proj-item.active {
             background: rgba(0, 26, 10, .6);
-            border-left: 3px solid var(--glow)
+            border-left: 3px solid var(--glow);
+            box-shadow: inset 20px 0 20px -20px var(--glow), 0 0 15px rgba(0, 255, 153, 0.2)
         }
 
         .proj-item.active .proj-title {
-            color: var(--glow)
+            color: var(--glow);
+            text-shadow: 0 0 8px var(--glow)
         }
 
         .proj-title {
@@ -384,14 +398,14 @@
             letter-spacing: 2px
         }
 
-        /* NAV BAR — bottom right like game controls */
+        /* NAV BAR — top right like game controls */
         #nav-bar {
             position: fixed;
-            bottom: 14px;
-            right: 20px;
+            top: 36px;
+            right: 32px;
             display: flex;
             gap: 12px;
-            z-index: 50
+            z-index: 60
         }
 
         .nav-btn {
@@ -450,6 +464,11 @@
                 display: none
             }
 
+            #header-bg {
+                display: block;
+                height: 130px;
+            }
+
             #page-title {
                 font-size: 28px;
                 top: 14px;
@@ -472,8 +491,8 @@
                 top: auto;
                 bottom: auto;
                 flex-direction: column;
-                min-height: calc(100vh - 110px);
-                margin-top: 68px
+                min-height: calc(100vh - 140px);
+                margin-top: 140px
             }
 
             #left-panel {
@@ -489,12 +508,16 @@
             }
 
             #nav-bar {
-                position: relative;
+                position: fixed;
+                top: 74px;
+                left: 16px;
+                right: 16px;
                 bottom: auto;
-                right: auto;
-                justify-content: center;
-                padding: 16px;
-                flex-wrap: wrap
+                justify-content: flex-start;
+                padding: 0;
+                flex-wrap: wrap;
+                gap: 8px;
+                z-index: 60;
             }
 
             .overview-wrap {
@@ -541,6 +564,7 @@
     <div id="grid-bg"></div>
     <canvas id="rain-canvas"></canvas>
 
+    <div id="header-bg"></div>
     <div id="page-title">MISSIONS</div>
     <div id="page-sub">SELECT A PROJECT TO VIEW DETAILS</div>
     <div id="divider"></div>
@@ -668,7 +692,8 @@
                 "tagline": "An AI-driven job search engine that automates job discovery, matching, and monitoring.",
 
                 "overview": {
-                    "text": "As a fresher actively applying for jobs myself, I wanted to build something that solves the “tab-fatigue” most job-seekers face.\n\nJob hunting today feels like a full-time unpaid job in itself.\nTwo hours on LinkedIn and Indeed… and Wellfound still left.\nEyes burning. Tabs everywhere.\n\nMost of us spend hours reading roles we don’t even qualify for: scrolling past Laravel jobs when our stack is Django, manually tracking what we applied to, and repeating the same searches every single day.\n\nSo I built 925buddy: a backend-first, AI-driven job search engine that scrapes, understands, matches, and monitors jobs automatically, so users stop searching and start receiving."
+                    "text": "As a fresher actively applying for jobs myself, I wanted to build something that solves the “tab-fatigue” most job-seekers face.\n\nJob hunting today feels like a full-time unpaid job in itself.\nTwo hours on LinkedIn and Indeed… and Wellfound still left.\nEyes burning. Tabs everywhere.\n\nMost of us spend hours reading roles we don’t even qualify for: scrolling past Laravel jobs when our stack is Django, manually tracking what we applied to, and repeating the same searches every single day.\n\nSo I built 925buddy: a backend-first, AI-driven job search engine that scrapes, understands, matches, and monitors jobs automatically, so users stop searching and start receiving.",
+                    "image": "buddy925/fpg.png"
                 },
 
                 "userManual": "<b>From a user's perspective</b>\n\nWith 925buddy, you can:\n\n- Upload your resume (PDF)\n- Scrape jobs across portals (Indeed, Naukri)\n- View all jobs in one place with pagination & filters\n- Ask a chatbot questions like:\n  - “Which jobs fit me best?”\n  - “What skills am I missing for backend roles?”\n- Schedule daily/weekly background scraping\n- Receive email notifications when strong matches appear\n- Everything is private, isolated per user, and can work even if you’re offline.",
@@ -676,8 +701,20 @@
                 "demo": {
                     "items": [
                         {
-                            "file": "",
+                            "file": "buddy925/fpg.png",
                             "caption": "view more on Linkedin: <a href='https://www.linkedin.com/posts/arghya-malakar-8b1410229_backendengineering-fastapi-rag-activity-7421863361329565696-9xVj?utm_source=share&utm_medium=member_desktop&rcm=ACoAADkxFgUB0ixGdxvX7hZTW4cvz_FnnwIMapE'>Click here</a>",
+                        },
+                        {
+                            "file": "buddy925/resume.png",
+                            "caption": "Upload your resume"
+                        },
+                        {
+                            "file": "buddy925/jobs.png",
+                            "caption": "Get jobs from multiple portals like Naukri, Indeed etc. in a centralized dashbaord."
+                        },
+                        {
+                            "file": "buddy925/chat.png",
+                            "caption": "Talk with the chatbot to get perfect jobs that match your skills, to get hot skills in the market or anything you want to know related to jobs and your skills."
                         }
                     ]
                 },
