@@ -564,32 +564,84 @@
 
         /* ── PROJECT DATA — edit this JSON to manage your projects ── */
         const MISSIONS = [
+
+            {
+                "title": "HunterHR",
+
+                "tagline": "AI-powered HR automation platform for screening, scheduling, and candidate communication.",
+
+                "overview": {
+                    "text": "HunterHR is an end-to-end recruitment automation platform designed to simplify how HR teams manage hiring workflows across email, WhatsApp, resumes, interviews, and candidate communication.\n\nThe platform allows recruiters to post job openings, automatically collect applicants from Gmail and WhatsApp groups, rank candidates using AI-powered matching, schedule interviews, and send interview invites or offer letters using customizable email templates.\n\nBuilt as a backend-first recruitment system, the platform focuses on reducing manual HR operations while providing intelligent candidate filtering, calendar synchronization, and workflow automation.",
+                    "image": "hunterhr/interview.png"
+                },
+
+                "userManual": "<b>Authentication & Setup</b>\n\n- Login securely using Google\n- Connect WhatsApp by scanning a QR code\n- Select WhatsApp groups for applicant collection\n- Sync Google Calendar or use in-app interview scheduling\n\n<b>Recruitment Workflow</b>\n\n- Post and manage job openings\n- Automatically collect applicants from Gmail and WhatsApp groups\n- View applicants in a centralized table with resume access\n- Track candidate details and application status\n\n<b>Candidate Matching</b>\n\n- View shortlisted or all applicants\n- AI-powered resume and job matching\n- Weighted scoring system for prioritizing skills, projects, or experience\n- Automatically assign candidates to interview slots based on scores\n- Manual candidate selection for interviews\n\n<b>Interview & Communication</b>\n\n- Create interview slots\n- Sync interviews with Google Calendar\n- Build reusable email templates using a drag-and-drop editor\n- Insert dynamic variables such as salary, joining date, and candidate details\n- Send interview invites and offer letters directly through email\n\n<b>User Experience</b>\n\n- Centralized hiring workflow\n- Reduced manual screening effort\n- Automated candidate organization\n- AI-assisted recruitment pipeline",
+
+                "demo": {
+                    "items": [
+                        {
+                            "file": "hunterhr/login.png",
+                            "caption": "Login screen"
+                        },
+                        {
+                            "file": "hunterhr/qr.png",
+                            "caption": "Connect whatsapp"
+                        },
+                        {
+                            "file": "hunterhr/wp.png",
+                            "caption": "Choose groups from whatsapp and scan for applications across mail and whatsapp"
+                        },
+                        {
+                            "file": "hunterhr/candidates.png",
+                            "caption": "Applicants shortlisted and stored"
+                        },
+                        {
+                            "file": "hunterhr/interview.png",
+                            "caption": "Interview slots"
+                        },
+                        {
+                            "file": "hunterhr/jobs.png",
+                            "caption": "Post jobs"
+                        },
+                        {
+                            "file": "hunterhr/template.png",
+                            "caption": "Template builder for mails"
+                        }
+                    ]
+                },
+
+                "devNotes": "<b>Built With</b>\n\nNode.js, React.js, Vite, Nuxt, PostgreSQL, Qdrant, Docker, Ollama, Llama 3, Groq API, Google OIDC, Google APIs, Google Calendar API, Gmail API, wweb.js, Tiptap Editor, Vercel AI SDK\n\n<b>Architecture</b>\n\nThe platform was designed as an AI-assisted HR workflow automation system combining resume parsing, applicant collection, intelligent candidate matching, scheduling, and automated communication.\n\nApplicants are collected through Gmail and WhatsApp integrations, while resumes and job descriptions are embedded into Qdrant for cosine-similarity-based matching.\n\nThe system also supports weighted candidate scoring, allowing recruiters to prioritize criteria such as skills, projects, or experience.\n\nAgent workflows were used for applicant detection, email processing, and calendar event extraction, while Ollama-hosted Llama 3 models handled local AI processing during development with Groq integration planned for production.",
+
+                "github": "https://github.com/hunterarghya/hr_onboarding_ai_sdk"
+            },
+
             {
                 "title": "OldMonkey",
                 "tagline": "Real-time multiplayer competitive typing arena",
                 "overview": {
                     "text": "My journey of touch typing started back in high school. I spent months on keybr.com to unlearn bad habits and learn touch typing from scratch, then migrated to monkeytype.com to push my raw speed. Naturally, I wanted to build a tribute to the community that made me faster.\n\nOldMonkey is a <b>real-time multiplayer typing game</b> where players compete head-to-head, chasing live opponent cursors through paragraphs while WPM and accuracy update every keystroke.",
-                    "image": ""
+                    "image": "oldmonkey/dashboard.png"
                 },
                 "userManual": "<b>Multiplayer & Bot Mode</b>\nChallenge friends to a live match or go up against an adaptive bot that targets ~8 WPM above your personal best — the only way to beat it is to beat yourself.\n\n<b>Social Matchmaking</b>\nFind rivals by username or filter opponents by WPM speed brackets (e.g., 60–70 WPM) to get evenly matched races.\n\n<b>Live Opponent Cursor</b>\nWatch your opponent's cursor move through the paragraph in real-time — chase them down or pull ahead, character by character.\n\n<b>Competitive Rating System</b>\nStart at 500 rating with a transparent +5/−5 system. Every race counts toward your rank.\n\n<b>Chat & Invites</b>\nMessage rivals, send game invites, and share matches directly from the platform.\n\n<b>Game History</b>\nTrack every race — review past WPM, accuracy, and results to measure your improvement over time.\n\n<b>Secure Accounts</b>\nSign up with email (OTP verified) or Google.",
                 "demo": {
                     "items": [
+
                         {
-                            "file": "",
-                            "caption": "Live multiplayer race with opponent cursor"
+                            "file": "oldmonkey/gameplay.mp4",
+                            "caption": "Gameplay"
                         },
                         {
-                            "file": "",
-                            "caption": "Matchmaking and speed bracket filtering"
+                            "file": "oldmonkey/dashboard.png",
+                            "caption": "User profile, game history, room creation, find players"
                         },
+
                         {
-                            "file": "",
-                            "caption": "Game history and stats dashboard"
+                            "file": "oldmonkey/login.png",
+                            "caption": "Login"
                         }
                     ]
                 },
-                "devNotes": "<b>Architecture</b>\nEvent-driven real-time system using WebSockets for character-by-character synchronization and long polling for chats.\n\n<b>Stack</b>\nPython, FastAPI, WebSockets, Redis, MongoDB, JWT, Google OIDC, Argon2\n\n<b>Real-Time Sync</b>\nRedis manages all live game state and timer synchronization, keeping latency sub-second across concurrent matches. Ghost Cursors stream opponent position updates to all connected clients via WebSocket.\n\n<b>Monkey Engine</b>\nA custom adaptive bot built in Python that reads the player's top speed and targets roughly 8 WPM higher — scaling dynamically so the challenge never plateaus.\n\n<b>Auth</b>\nFull authentication pipeline with JWT sessions, Google OIDC login, OTP email verification, and Argon2 password hashing.",
-                "github": "https://github.com/"
+                "devNotes": "<b>Architecture</b>\nEvent-driven real-time system using WebSockets for character-by-character synchronization and long polling for chats.\n\n<b>Stack</b>\nPython, FastAPI, WebSockets, Redis, MongoDB, JWT, Google OIDC, Argon2\n\n<b>Real-Time Sync</b>\nRedis manages all live game state and timer synchronization, keeping latency sub-second across concurrent matches. Ghost Cursors stream opponent position updates to all connected clients via WebSocket.\n\n<b>Monkey Engine</b>\nA custom adaptive bot built in Python that reads the player's top speed and targets roughly 8 WPM higher — scaling dynamically so the challenge never plateaus.\n\n<b>Auth</b>\nFull authentication pipeline with JWT sessions, Google OIDC login, OTP email verification, and Argon2 password hashing."
             },
 
             {
@@ -603,30 +655,11 @@
 
                 "userManual": "<b>Authentication & Access</b>\n\n1. Register using email OTP verification\n2. Login using Google OAuth (OIDC)\n3. Access separate Teacher and Student dashboards\n4. Join classrooms using invite codes or links\n\n<b>Teacher Features</b>\n\n1. Create and manage classrooms/groups\n2. Approve or reject student join requests\n3. Create tests with custom timers and marking schemes\n4. Configure scheduled tests or deadline-based attempts\n5. Add MCQ, numerical, and coding questions\n6. Upload question images and test assets\n7. View student submissions and analytics\n8. Track topic-wise performance insights\n\n<b>Student Features</b>\n\n1. Join classrooms using group codes\n2. Attempt tests in a real-time exam interface\n3. Navigate between questions during the exam\n4. Solve coding problems with instant execution feedback\n5. Receive automatic score calculation after submission\n6. View previous test history and performance reports\n\n<b>Evaluation Rules</b>\n\n- Correct answers receive full marks\n- Wrong answers apply negative marking\n- Unattempted questions receive zero marks\n- MCQs support partial marking logic\n- Coding questions are validated using visible and hidden test cases\n\n<b>Security & Proctoring</b>\n\n- Auto-submit on tab switching\n- Isolated Docker containers for code execution\n- Secure backend validation for all submissions",
 
-                "demo": {
-                    "items": [
-                        {
-                            "file": "",
-                            "caption": "Teacher dashboard for classroom and test management"
-                        },
-                        {
-                            "file": "",
-                            "caption": "Student exam interface with real-time timer"
-                        },
-                        {
-                            "file": "",
-                            "caption": "Coding question execution environment"
-                        },
-                        {
-                            "file": "",
-                            "caption": "Performance analytics and result overview"
-                        }
-                    ]
-                },
+
 
                 "devNotes": "<b>Architecture</b>\n\nThe platform follows a modular Django app-based architecture separating authentication, classroom management, testing, evaluation, analytics, and sandbox execution into independent domains.\n\n<b>Backend Stack</b>\n\n- Django\n- PostgreSQL\n- Redis\n- Docker\n- Docker Compose\n\n<b>Authentication</b>\n\nImplemented email OTP authentication using Redis for temporary OTP storage along with Google OIDC login using OAuth 2.0.\n\n<b>Realtime & Timer Logic</b>\n\nRedis was used for managing volatile exam state such as countdown timers, OTP expiry, and rapid-fire question timing.\n\n<b>Code Execution Sandbox</b>\n\nCoding questions are executed inside isolated Docker containers to securely run untrusted user code with controlled resources and hidden test cases.\n\n<b>Evaluation Engine</b>\n\nBuilt a custom scoring engine supporting:\n\n- Negative marking\n- Partial marking for MCQs\n- Numerical answer validation\n- Hidden test case evaluation\n- Auto-generated result computation.",
 
-                "github": "https://github.com/"
+                "github": "https://github.com/hunterarghya/Online-Assessment-Platform"
             },
 
             {
@@ -644,26 +677,12 @@
                     "items": [
                         {
                             "file": "",
-                            "caption": "Unified job dashboard with filters and pagination"
-                        },
-                        {
-                            "file": "",
-                            "caption": "Resume upload and AI matching workflow"
-                        },
-                        {
-                            "file": "",
-                            "caption": "AI chatbot answering job-fit questions"
-                        },
-                        {
-                            "file": "",
-                            "caption": "Automated background scraping and alerts"
+                            "caption": "view more on Linkedin: <a href='https://www.linkedin.com/posts/arghya-malakar-8b1410229_backendengineering-fastapi-rag-activity-7421863361329565696-9xVj?utm_source=share&utm_medium=member_desktop&rcm=ACoAADkxFgUB0ixGdxvX7hZTW4cvz_FnnwIMapE'>Click here</a>",
                         }
                     ]
                 },
 
-                "devNotes": "<b>From the developer's perspective</b>\n\nThis system is built as a RAG + async backend pipeline:\n\n🔹 Data ingestion\n◽ Selenium + BeautifulSoup scrape full job descriptions\n◽ Jobs are normalized and stored in MongoDB\n◽ Each job is tagged to a specific user (multi-tenant design)\n\n🔹 Resume intelligence\n◽ PDF resumes are uploaded and stored securely in ImageKit\n◽ Text extracted via PyMuPDF\n◽ Chunked using LangChain RecursiveTextSplitter\n◽ Embedded with Sentence Transformers\n\n🔹 Vector search & RAG\n◽ Job + resume embeddings stored in ChromaDB\n◽ On every query:\n  - Relevant resume + job chunks retrieved via cosine similarity\n  - Context passed to Groq LLM\n  - Strict RAG guardrails prevent hallucination if no data exists\n\n🔹 Proactive search agent\n◽ Celery + Redis (RedBeat) handle scheduled scraping\n◽ Background workers:\n  - Scrape jobs\n  - Embed new data\n  - Compute similarity scores\n  - Trigger email alerts if score exceeds threshold\n\n🔹 Backend & infra\n◽ FastAPI (JWT auth, protected routes)\n◽ MongoDB (users, jobs, metadata)\n◽ ChromaDB (vector store)\n◽ Docker + Docker Compose (Redis, workers)\n◽ Fully async, non-blocking architecture\n\n<b>Tech Stack</b>\n\nFastAPI, Python, MongoDB, ChromaDB, Celery, Redis, Docker, Groq LLM, Sentence Transformers, Selenium, BeautifulSoup, PyMuPDF, LangChain, ImageKit",
-
-                "github": "https://github.com/"
+                "devNotes": "<b>From the developer's perspective</b>\n\nThis system is built as a RAG + async backend pipeline:\n\n🔹 Data ingestion\n◽ Selenium + BeautifulSoup scrape full job descriptions\n◽ Jobs are normalized and stored in MongoDB\n◽ Each job is tagged to a specific user (multi-tenant design)\n\n🔹 Resume intelligence\n◽ PDF resumes are uploaded and stored securely in ImageKit\n◽ Text extracted via PyMuPDF\n◽ Chunked using LangChain RecursiveTextSplitter\n◽ Embedded with Sentence Transformers\n\n🔹 Vector search & RAG\n◽ Job + resume embeddings stored in ChromaDB\n◽ On every query:\n  - Relevant resume + job chunks retrieved via cosine similarity\n  - Context passed to Groq LLM\n  - Strict RAG guardrails prevent hallucination if no data exists\n\n🔹 Proactive search agent\n◽ Celery + Redis (RedBeat) handle scheduled scraping\n◽ Background workers:\n  - Scrape jobs\n  - Embed new data\n  - Compute similarity scores\n  - Trigger email alerts if score exceeds threshold\n\n🔹 Backend & infra\n◽ FastAPI (JWT auth, protected routes)\n◽ MongoDB (users, jobs, metadata)\n◽ ChromaDB (vector store)\n◽ Docker + Docker Compose (Redis, workers)\n◽ Fully async, non-blocking architecture\n\n<b>Tech Stack</b>\n\nFastAPI, Python, MongoDB, ChromaDB, Celery, Redis, Docker, Groq LLM, Sentence Transformers, Selenium, BeautifulSoup, PyMuPDF, LangChain, ImageKit"
             },
 
             {
@@ -672,7 +691,8 @@
                 "tagline": "A full-featured musical instrument marketplace and social platform for musicians and guitar enthusiasts.",
 
                 "overview": {
-                    "text": "Jimi is a modern guitar and musical instrument marketplace platform that combines <b>e-commerce</b>, <b>community interaction</b>, and <b>admin-driven business management</b> into a single ecosystem.\n\nThe platform allows users to browse and purchase musical instruments, check delivery availability using pin codes and shop radius validation, track orders, and interact with a moderated social feed built for musicians.\n\nAdmins can manage inventory, products, orders, discounts, and community moderation through a dedicated dashboard, while users get a seamless shopping and community experience tailored for music enthusiasts."
+                    "text": "Jimi is a modern guitar and musical instrument marketplace platform that combines <b>e-commerce</b>, <b>community interaction</b>, and <b>admin-driven business management</b> into a single ecosystem.\n\nThe platform allows users to browse and purchase musical instruments, check delivery availability using pin codes and shop radius validation, track orders, and interact with a moderated social feed built for musicians.\n\nAdmins can manage inventory, products, orders, discounts, and community moderation through a dedicated dashboard, while users get a seamless shopping and community experience tailored for music enthusiasts.",
+                    "image": "jimi/product.jpeg"
                 },
 
                 "userManual": "<b>Marketplace Features</b>\n\n- Browse guitars and musical instruments\n- Search and filter products\n- Add products to cart and place orders\n- Secure online payments\n- Track order history and delivery status\n- Check delivery availability using pin code support\n\n<b>Community Features</b>\n\n- Create and share posts\n- Like, comment, and save posts\n- Explore a musician-focused social feed\n- Build profiles and interact with other users\n- Admin-moderated community system\n\n<b>Admin Features</b>\n\n- Add and manage products\n- Track inventory and orders\n- Manage discounts and offers\n- Moderate community posts\n- Access analytics and dashboard tools\n\n<b>User Experience</b>\n\n- Unified shopping and social platform\n- Clean marketplace workflow\n- Musician-focused ecosystem\n- Mobile-friendly browsing experience",
@@ -680,27 +700,41 @@
                 "demo": {
                     "items": [
                         {
-                            "file": "",
-                            "caption": "Homepage with featured instruments and marketplace feed"
+                            "file": "jimi/login.jpeg",
+                            "caption": "User Login"
                         },
                         {
-                            "file": "",
-                            "caption": "Product details and checkout workflow"
+                            "file": "jimi/market.jpeg",
+                            "caption": "Marketplace"
                         },
                         {
-                            "file": "",
-                            "caption": "Musician community social feed"
+                            "file": "jimi/cart.jpeg",
+                            "caption": "Shopping cart"
                         },
                         {
-                            "file": "",
-                            "caption": "Admin dashboard for inventory and moderation"
+                            "file": "jimi/product.jpeg",
+                            "caption": "Product details"
+                        },
+                        {
+                            "file": "jimi/pay.jpeg",
+                            "caption": "Checkout"
+                        },
+                        {
+                            "file": "jimi/social.jpeg",
+                            "caption": "Community"
+                        },
+                        {
+                            "file": "jimi/post.jpeg",
+                            "caption": "Post"
+                        },
+                        {
+                            "file": "jimi/admin.jpeg",
+                            "caption": "Admin panel inventory management"
                         }
                     ]
                 },
 
-                "devNotes": "<b>Built With</b>\n\nFastAPI, Python, PostgreSQL, MongoDB, Redis, SQLAlchemy, Docker, Docker Compose, NGINX, Celery, Razorpay, ImageKit\n\n<b>Architecture</b>\n\nThe platform was designed as a modular backend system combining e-commerce, order management, payments, inventory handling, and a social media layer for musicians.\n\nPostgreSQL was used for transactional systems like users and orders, while MongoDB handled product catalogs and social content.\n\nRedis and Celery powered background workflows such as notifications, asynchronous processing, and session handling.\n\nThe application was containerized using Docker and structured for scalable deployment and service orchestration.",
-
-                "github": "https://github.com/"
+                "devNotes": "<b>Built With</b>\n\nFastAPI, Python, PostgreSQL, MongoDB, Redis, SQLAlchemy, Docker, Docker Compose, NGINX, Celery, Razorpay, ImageKit\n\n<b>Architecture</b>\n\nThe platform was designed as a modular backend system combining e-commerce, order management, payments, inventory handling, and a social media layer for musicians.\n\nPostgreSQL was used for transactional systems like users and orders, while MongoDB handled product catalogs and social content.\n\nRedis and Celery powered background workflows such as notifications, asynchronous processing, and session handling.\n\nThe application was containerized using Docker and structured for scalable deployment and service orchestration."
             },
 
             {
@@ -717,27 +751,19 @@
                 "demo": {
                     "items": [
                         {
-                            "file": "",
-                            "caption": "Multiplayer game room interface"
+                            "file": "bluff/login.png",
+                            "caption": "Login"
                         },
                         {
-                            "file": "",
+                            "file": "bluff/gameplay.mp4",
                             "caption": "Real-time bluff gameplay and card actions"
-                        },
-                        {
-                            "file": "",
-                            "caption": "Integrated room chat and notifications"
-                        },
-                        {
-                            "file": "",
-                            "caption": "Video and voice communication interface"
                         }
                     ]
                 },
 
                 "devNotes": "<b>Built With</b>\n\nFastAPI, Python, WebSockets, WebRTC, MongoDB, JWT Authentication, Vanilla JavaScript, HTML5, CSS3\n\n<b>Architecture</b>\n\nThe platform uses WebSockets for synchronized multiplayer gameplay and room-based real-time communication.\n\nWebRTC was integrated for peer-to-peer video and voice calling, while MongoDB handled room state and user data persistence.\n\nThe application was designed as a multi-page real-time system with asynchronous backend handling for concurrent player actions and low-latency interaction.",
 
-                "github": "https://github.com/"
+                "github": "https://github.com/hunterarghya/Live-Bluff-Game"
             },
 
             {
@@ -774,8 +800,10 @@
 
                 "devNotes": "<b>Built With</b>\n\nFastAPI, Python, CrewAI, Google OAuth 2.0, Gmail API\n\n<b>Architecture</b>\n\nThe system was designed using an agent-based workflow architecture separating email analysis and execution into independent components.\n\nCrewAI was used for orchestrating the automation pipeline, while Gmail API integration enabled inbox access, classification, and automated actions.\n\nThe backend was built as an async-friendly modular API system with extensibility for future real-time streaming and background task processing.",
 
-                "github": "https://github.com/"
+                "github": "https://github.com/hunterarghya/Gmail-organizer"
             },
+
+
 
             // {
             //     title: "Project Eta", tagline: "Social media analytics dashboard",
@@ -790,35 +818,15 @@
                 "tagline": "A lightweight media downloader for YouTube videos, playlists, audio, and subtitles.",
 
                 "overview": {
-                    "text": "A simple cross-platform downloader designed to make saving YouTube content fast and accessible.\n\nThe application allows users to download <b>single videos</b>, <b>entire playlists</b>, <b>audio as MP3</b>, and <b>subtitles in SRT format</b> through a clean and minimal interface.\n\nI initially built the project as a lightweight backend utility using <b>Python</b> and <b>FastAPI</b> to experiment with media streaming and download automation. Later, the project was migrated to a <b>Flutter mobile application</b> to provide a smoother mobile experience and better usability."
+                    "text": "A simple cross-platform downloader designed to make saving YouTube content fast and accessible.\n\nThe application allows users to download <b>single videos</b>, <b>entire playlists</b>, <b>audio as MP3</b>, and <b>subtitles in SRT format</b> through a clean and minimal interface.\n\nI initially built the project as a lightweight backend utility using <b>Python</b> and <b>FastAPI</b> to experiment with media streaming and download automation. Later, the project was migrated to a <b>Flutter mobile application</b> to provide a smoother mobile experience and better usability.",
+                    "image": "tubedown/ytdss.jpeg"
                 },
 
                 "userManual": "<b>Getting Started</b>\n\n1. Paste a YouTube video or playlist link\n2. Select the download type\n3. Start the download\n4. Access the downloaded files locally\n\n<b>Supported Features</b>\n\n- Download single videos\n- Download complete playlists\n- Extract audio as MP3\n- Download playlists as MP3\n- Download subtitles in SRT format\n- Batch playlist downloads\n\n<b>User Experience</b>\n\n- Minimal and easy-to-use interface\n- Quick media downloads\n- Mobile-friendly experience\n- Simple one-click workflow\n- Organized downloaded files",
 
-                "demo": {
-                    "items": [
-                        {
-                            "file": "",
-                            "caption": "Video and playlist download interface"
-                        },
-                        {
-                            "file": "",
-                            "caption": "MP3 conversion and subtitle selection"
-                        },
-                        {
-                            "file": "",
-                            "caption": "Mobile application home screen"
-                        },
-                        {
-                            "file": "",
-                            "caption": "Batch playlist download workflow"
-                        }
-                    ]
-                },
+                "devNotes": "<b>Built With</b>\n\n- Python\n- FastAPI\n- pytubefix\n- ffmpeg\n- Flutter\n- Dart\n\n<b>Backend Functionality</b>\n\nThe backend handled video streaming, playlist processing, MP3 extraction, subtitle generation, and ZIP-based batch downloads using the pytubefix library.\n\n<b>Mobile Application</b>\n\nThe project was later migrated to Flutter by my friend Ratnadeep to provide a faster and more polished mobile experience with improved download handling and file management.",
 
-                "devNotes": "<b>Built With</b>\n\n- Python\n- FastAPI\n- pytubefix\n- ffmpeg\n- Flutter\n- Dart\n\n<b>Backend Functionality</b>\n\nThe backend handled video streaming, playlist processing, MP3 extraction, subtitle generation, and ZIP-based batch downloads using the pytubefix library.\n\n<b>Mobile Application</b>\n\nThe project was later migrated to Flutter to provide a faster and more polished mobile experience with improved download handling and file management.",
-
-                "github": "https://github.com/"
+                "github": "https://github.com/hunterarghya/Youtube-Downloader"
             },
 
             {
@@ -827,7 +835,8 @@
                 "tagline": "A college marketplace platform for buying, selling, and managing student listings securely.",
 
                 "overview": {
-                    "text": "OLX CGEC is a college-focused marketplace platform built to simplify buying and selling within the campus community.\n\nThe platform allows students to create listings, upload product images, manage their posts, and securely process payments through an integrated checkout flow."
+                    "text": "OLX CGEC is a college-focused marketplace platform built to simplify buying and selling within the campus community.\n\nThe platform allows students to create listings, upload product images, manage their posts, and securely process payments through an integrated checkout flow.",
+                    "image": "olxcgec/buy.png"
                 },
 
                 "userManual": "<b>Authentication</b>\n\n- Create a new account\n- Login\n\n<b>Marketplace Features</b>\n\n- Create product listings with title, description, category, price, and images\n- Upload item photos\n- Browse all marketplace posts\n- View detailed product pages\n- Edit or delete your own listings\n- Manage your user profile\n\n<b>Payments</b>\n\n- Secure online payments using Razorpay\n- Seamless checkout experience\n- Payment verification and status updates\n\n<b>User Experience</b>\n\n- Simple and functional marketplace interface\n- Easy listing management\n- Student-focused buying and selling workflow",
@@ -835,27 +844,31 @@
                 "demo": {
                     "items": [
                         {
-                            "file": "",
-                            "caption": "Marketplace homepage with product listings"
+                            "file": "olxcgec/register.png",
+                            "caption": "Register user"
                         },
                         {
-                            "file": "",
-                            "caption": "Product upload and image management"
+                            "file": "olxcgec/buy.png",
+                            "caption": "Marketplace"
                         },
                         {
-                            "file": "",
-                            "caption": "Individual item details and checkout flow"
+                            "file": "olxcgec/payment.png",
+                            "caption": "Payment"
                         },
                         {
-                            "file": "",
-                            "caption": "User dashboard for managing listings"
+                            "file": "olxcgec/sell.png",
+                            "caption": "Sell items"
+                        },
+                        {
+                            "file": "olxcgec/myitem.png",
+                            "caption": "My items on sale, you can edit/delete"
                         }
                     ]
                 },
 
                 "devNotes": "<b>Built With</b>\n\nFastAPI, Python, PostgreSQL, SQLAlchemy, JWT Authentication, ImageKit, Razorpay, Docker, Docker Compose, Uvicorn\n\n<b>Architecture</b>\n\nThe application uses a FastAPI backend with JWT-based authentication and PostgreSQL for persistent data storage.\n\nImage uploads are handled through ImageKit, while Razorpay was integrated for secure payment processing and order verification.\n\nDocker and Docker Compose were used to containerize the backend and database for simplified deployment and local development.",
 
-                "github": "https://github.com/"
+                "github": "https://github.com/hunterarghya/College-Marketplace"
             }
         ];
 
