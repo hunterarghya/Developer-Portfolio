@@ -790,46 +790,47 @@
                     "position": "top-left",
                     "skills": [
                         { "name": "Python", "slug": "python" },
-                        { "name": "C#", "slug": "csharp" },
-                        { "name": "Go", "slug": "go" },
+                        { "name": "TypeScript", "slug": "typescript" },
                         { "name": "JavaScript", "slug": "javascript" },
+                        { "name": "Go", "slug": "go" },
+                        { "name": "Java", "slug": "openjdk" },
                         { "name": "SQL", "slug": "postgresql" },
                         { "name": "Bash", "slug": "gnubash" }
                     ]
                 },
                 {
-                    "name": "Frameworks",
+                    "name": "Backend",
                     "position": "top-right",
                     "skills": [
                         { "name": "FastAPI", "slug": "fastapi" },
                         { "name": "Django", "slug": "django" },
                         { "name": "Node.js", "slug": "nodedotjs" },
-                        { "name": "Nuxt.js", "slug": "nuxtdotjs" },
-                        { "name": "React", "slug": "react" },
-                        { "name": "Vue", "slug": "vuedotjs" }
-                    ]
-                },
-                {
-                    "name": "Databases",
-                    "position": "left",
-                    "skills": [
-                        { "name": "PostgreSQL", "slug": "postgresql" },
-                        { "name": "MongoDB", "slug": "mongodb" },
-                        { "name": "Redis", "slug": "redis" },
+                        { "name": "Go (Chi)", "slug": "go" },
+                        { "name": "WebSockets", "slug": "socketdotio" },
                         { "name": "RabbitMQ", "slug": "rabbitmq" }
                     ]
                 },
                 {
-                    "name": "Agentic AI",
-                    "position": "right",
+                    "name": "AI / Automation",
+                    "position": "left",
                     "skills": [
-                        { "name": "LangChain", "slug": "langchain" },
                         { "name": "CrewAI", "slug": "crewai" },
-                        { "name": "Google ADK", "slug": "google" },
+                        { "name": "LangChain", "slug": "langchain" },
                         { "name": "Vercel AI", "slug": "vercel" },
                         { "name": "n8n", "slug": "n8n" },
-                        { "name": "ChromaDB", "slug": "chroma" },
-                        { "name": "Qdrant", "slug": "qdrant" }
+                        { "name": "RAG", "slug": "openai" },
+                        { "name": "Prompt Eng.", "slug": "openai" }
+                    ]
+                },
+                {
+                    "name": "Databases & Storage",
+                    "position": "right",
+                    "skills": [
+                        { "name": "PostgreSQL", "slug": "postgresql" },
+                        { "name": "MongoDB", "slug": "mongodb" },
+                        { "name": "Redis", "slug": "redis" },
+                        { "name": "Qdrant", "slug": "qdrant" },
+                        { "name": "ChromaDB", "slug": "chroma" }
                     ]
                 },
                 {
@@ -837,8 +838,14 @@
                     "position": "bottom",
                     "skills": [
                         { "name": "Docker", "slug": "docker" },
+                        { "name": "AWS", "slug": "amazonwebservices" },
+                        { "name": "Caddy", "slug": "caddy" },
+                        { "name": "Nginx", "slug": "nginx" },
                         { "name": "GitHub Actions", "slug": "githubactions" },
-                        { "name": "RabbitMQ", "slug": "rabbitmq" }
+                        { "name": "Argo CD", "slug": "argo" },
+                        { "name": "Prometheus", "slug": "prometheus" },
+                        { "name": "Grafana", "slug": "grafana" },
+                        { "name": "Uptime Kuma", "slug": "uptimekuma" }
                     ]
                 }
             ]
@@ -901,7 +908,7 @@
                     img.title = skill.name;
 
                     // white-brand icons: postgres, mongo, redis (their logos need white not green)
-                    const whiteBrands = ['postgresql', 'mongodb', 'redis', 'rabbitmq', 'docker'];
+                    const whiteBrands = ['postgresql', 'mongodb', 'redis', 'rabbitmq', 'docker', 'nginx', 'amazonwebservices', 'prometheus', 'grafana'];
                     if (whiteBrands.includes(skill.slug)) img.classList.add('brand-white');
 
                     img.onerror = () => {
