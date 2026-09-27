@@ -707,26 +707,18 @@
             align-items: center;
             justify-content: center;
             padding: 30px;
+            flex-direction: column;
+            gap: 14px;
         }
 
         .lightbox-modal.active {
             display: flex;
         }
 
-        .lightbox-modal img {
-            max-width: 92vw;
-            max-height: 88vh;
-            object-fit: contain;
-            border: 1px solid var(--glow);
-            box-shadow: 0 0 35px rgba(0, 255, 136, 0.35);
-            border-radius: 4px;
-            background: #000;
-        }
-
         .lightbox-close {
             position: absolute;
-            top: 24px;
-            right: 28px;
+            top: 20px;
+            right: 24px;
             font-family: 'Share Tech Mono', monospace;
             font-size: 11px;
             letter-spacing: 2px;
@@ -737,6 +729,7 @@
             border-radius: 2px;
             cursor: pointer;
             transition: all .2s;
+            z-index: 510;
         }
 
         .lightbox-close:hover {
@@ -744,13 +737,118 @@
             color: #000;
         }
 
-        .media-frame-body img {
-            cursor: zoom-in;
-            transition: transform .2s ease, filter .2s ease;
+        /* Lightbox media container */
+        .lightbox-media {
+            max-width: 92vw;
+            max-height: 78vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
-        .media-frame-body img:hover {
+        .lightbox-media img {
+            max-width: 92vw;
+            max-height: 78vh;
+            object-fit: contain;
+            border: 1px solid var(--glow);
+            box-shadow: 0 0 35px rgba(0, 255, 136, 0.35);
+            border-radius: 4px;
+            background: #000;
+        }
+
+        .lightbox-media video {
+            max-width: 92vw;
+            max-height: 78vh;
+            object-fit: contain;
+            border: 1px solid var(--glow);
+            box-shadow: 0 0 35px rgba(0, 255, 136, 0.35);
+            border-radius: 4px;
+            background: #000;
+        }
+
+        /* Lightbox caption */
+        .lightbox-caption {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            color: var(--desc);
+            letter-spacing: 1.5px;
+            text-align: center;
+            max-width: 80vw;
+            line-height: 1.6;
+        }
+
+        /* Lightbox navigation arrows */
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--c7);
+            background: rgba(0, 20, 10, 0.85);
+            color: var(--glow);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .2s;
+            z-index: 510;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .lightbox-nav:hover {
+            border-color: var(--glow);
+            background: rgba(0, 40, 20, 0.95);
+            box-shadow: 0 0 12px rgba(0, 255, 153, 0.3);
+        }
+
+        .lightbox-nav.lb-prev {
+            left: 20px;
+        }
+
+        .lightbox-nav.lb-next {
+            right: 20px;
+        }
+
+        .lightbox-nav.hidden {
+            display: none;
+        }
+
+        /* Lightbox counter */
+        .lightbox-counter {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            color: var(--c8);
+            letter-spacing: 3px;
+        }
+
+        .lightbox-counter.hidden {
+            display: none;
+        }
+
+        /* Clickable media in frames */
+        .media-frame-body img,
+        .media-frame-body video {
+            cursor: zoom-in;
+            transition: filter .2s ease;
+        }
+
+        .media-frame-body img:hover,
+        .media-frame-body video:hover {
             filter: brightness(1.08);
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-nav {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+            .lightbox-nav.lb-prev { left: 8px; }
+            .lightbox-nav.lb-next { right: 8px; }
         }
     </style>
 </head>
@@ -781,7 +879,11 @@
 
     <div id="lightbox" class="lightbox-modal">
         <button class="lightbox-close" id="lightbox-close">✕ CLOSE [ESC]</button>
-        <img id="lightbox-img" src="" alt="Full view">
+        <button class="lightbox-nav lb-prev hidden" id="lb-prev">◀</button>
+        <button class="lightbox-nav lb-next hidden" id="lb-next">▶</button>
+        <div class="lightbox-media" id="lightbox-media"></div>
+        <div class="lightbox-caption hidden" id="lightbox-caption"></div>
+        <div class="lightbox-counter hidden" id="lightbox-counter"></div>
     </div>
 
     <script>
@@ -1167,16 +1269,17 @@
         function renderContent() {
             const ca = document.getElementById('content-area');
             const p = MISSIONS[activeProject];
+            if (!p) return;
             if (activeTab === 'overview' && p.overview) {
                 const hasImg = p.overview.image;
                 const isVid = hasImg && (p.overview.image.endsWith('.mp4') || p.overview.image.endsWith('.webm'));
-                const isTall = p.overview.tallImg;
                 let mediaHtml = '';
                 if (hasImg) {
+                    const clickAction = 'onclick="openLightboxSingle(\'' + p.overview.image + '\')"';
                     if (isVid) {
-                        mediaHtml = '<div class="media-frame overview-frame"><div class="media-frame-header"><span class="frame-tag"><span class="frame-dot"></span>LIVE RECORD</span><span class="frame-action">VIDEO STREAM</span></div><div class="media-frame-body"><video src="' + p.overview.image + '" autoplay muted loop playsinline></video></div></div>';
+                        mediaHtml = '<div class="media-frame overview-frame"><div class="media-frame-header"><span class="frame-tag"><span class="frame-dot"></span>LIVE RECORD</span><span class="frame-action">CLICK TO ENLARGE</span></div><div class="media-frame-body"><video src="' + p.overview.image + '" autoplay muted loop playsinline ' + clickAction + ' title="Click to enlarge"></video></div></div>';
                     } else {
-                        mediaHtml = '<div class="media-frame overview-frame"><div class="media-frame-header"><span class="frame-tag"><span class="frame-dot"></span>VISUAL RECORD</span><span class="frame-action">CLICK TO ENLARGE</span></div><div class="media-frame-body"><img src="' + p.overview.image + '" onclick="openLightbox(this.src)" title="Click to enlarge" onerror="this.parentElement.parentElement.innerHTML=\'<div class=no-img>NO IMAGE</div>\'"></div></div>';
+                        mediaHtml = '<div class="media-frame overview-frame"><div class="media-frame-header"><span class="frame-tag"><span class="frame-dot"></span>VISUAL RECORD</span><span class="frame-action">CLICK TO ENLARGE</span></div><div class="media-frame-body"><img src="' + p.overview.image + '" ' + clickAction + ' title="Click to enlarge" onerror="this.parentElement.parentElement.innerHTML=\'<div class=no-img>NO IMAGE</div>\'"></div></div>';
                     }
                 }
                 ca.innerHTML = '<div class="overview-wrap"><div class="overview-text"><div class="content-title">' + p.title + '</div><div class="content-text">' + p.overview.text + '</div></div>' + mediaHtml + '</div>';
@@ -1196,31 +1299,115 @@
             const isVideo = item.file && (item.file.endsWith('.mp4') || item.file.endsWith('.webm'));
             let media = '';
             if (item.file) {
-                media = isVideo ? '<video src="' + item.file + '" controls playsinline></video>' : '<img src="' + item.file + '" onclick="openLightbox(this.src)" title="Click to enlarge" onerror="this.parentElement.parentElement.innerHTML=\'<div class=no-img>NO MEDIA</div>\'">';
+                const clickAction = 'onclick="openLightboxDemo(' + demoIdx + ')"';
+                media = isVideo
+                    ? '<video src="' + item.file + '" controls playsinline ' + clickAction + ' title="Click to enlarge"></video>'
+                    : '<img src="' + item.file + '" ' + clickAction + ' title="Click to enlarge" onerror="this.parentElement.parentElement.innerHTML=\'<div class=no-img>NO MEDIA</div>\'">';
             } else { media = '<div class="no-img">NO MEDIA FILE</div>' }
-            ca.innerHTML = '<div class="demo-slider">' + (item.caption ? '<div class="demo-caption">' + item.caption + '</div>' : '') + '<div class="media-frame demo-frame"><div class="media-frame-header"><span class="frame-tag"><span class="frame-dot"></span>DEMO // ' + (demoIdx + 1) + ' OF ' + items.length + '</span><span class="frame-action">' + (isVideo ? 'VIDEO' : 'CLICK TO ENLARGE') + '</span></div><div class="media-frame-body">' + media + '</div></div><div class="demo-controls"><button class="demo-btn" id="demo-prev">◀</button><div class="demo-counter">' + (demoIdx + 1) + ' / ' + items.length + '</div><button class="demo-btn" id="demo-next">▶</button></div></div>';
+            ca.innerHTML = '<div class="demo-slider">' + (item.caption ? '<div class="demo-caption">' + item.caption + '</div>' : '') + '<div class="media-frame demo-frame"><div class="media-frame-header"><span class="frame-tag"><span class="frame-dot"></span>DEMO // ' + (demoIdx + 1) + ' OF ' + items.length + '</span><span class="frame-action">CLICK TO ENLARGE</span></div><div class="media-frame-body">' + media + '</div></div><div class="demo-controls"><button class="demo-btn" id="demo-prev">◀</button><div class="demo-counter">' + (demoIdx + 1) + ' / ' + items.length + '</div><button class="demo-btn" id="demo-next">▶</button></div></div>';
             document.getElementById('demo-prev').onclick = () => { demoIdx = (demoIdx - 1 + items.length) % items.length; renderDemo(ca, p) };
             document.getElementById('demo-next').onclick = () => { demoIdx = (demoIdx + 1) % items.length; renderDemo(ca, p) };
         }
 
-        /* LIGHTBOX FUNCTIONS */
-        function openLightbox(src) {
+        /* ── LIGHTBOX SYSTEM ── */
+        let lbItems = [];   // array of {file, caption} for navigable mode
+        let lbIdx = 0;      // current index in navigable mode
+        let lbMode = 'single'; // 'single' or 'demo'
+
+        function openLightboxSingle(src) {
             if (!src) return;
-            const lb = document.getElementById('lightbox');
-            const img = document.getElementById('lightbox-img');
-            img.src = src;
-            lb.classList.add('active');
+            lbMode = 'single';
+            lbItems = [{ file: src, caption: '' }];
+            lbIdx = 0;
+            renderLightbox();
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        function openLightboxDemo(startIdx) {
+            const p = MISSIONS[activeProject];
+            if (!p || !p.demo || !p.demo.items) return;
+            lbMode = 'demo';
+            lbItems = p.demo.items;
+            lbIdx = startIdx;
+            renderLightbox();
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        function renderLightbox() {
+            const mediaContainer = document.getElementById('lightbox-media');
+            const captionEl = document.getElementById('lightbox-caption');
+            const counterEl = document.getElementById('lightbox-counter');
+            const prevBtn = document.getElementById('lb-prev');
+            const nextBtn = document.getElementById('lb-next');
+
+            // Stop any playing video before switching
+            const oldVid = mediaContainer.querySelector('video');
+            if (oldVid) { oldVid.pause(); oldVid.src = ''; }
+
+            const item = lbItems[lbIdx];
+            const src = item.file || item;
+            const isVid = src && (src.endsWith('.mp4') || src.endsWith('.webm'));
+
+            if (isVid) {
+                mediaContainer.innerHTML = '<video src="' + src + '" controls autoplay playsinline></video>';
+            } else {
+                mediaContainer.innerHTML = '<img src="' + src + '" alt="Full view">';
+            }
+
+            // Caption
+            if (item.caption && item.caption.trim()) {
+                captionEl.innerHTML = item.caption;
+                captionEl.classList.remove('hidden');
+            } else {
+                captionEl.classList.add('hidden');
+            }
+
+            // Nav arrows + counter
+            if (lbItems.length > 1) {
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+                counterEl.textContent = (lbIdx + 1) + ' / ' + lbItems.length;
+                counterEl.classList.remove('hidden');
+            } else {
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+                counterEl.classList.add('hidden');
+            }
+        }
+
+        function lbNavigate(dir) {
+            if (lbItems.length <= 1) return;
+            lbIdx = ((lbIdx + dir) + lbItems.length) % lbItems.length;
+            renderLightbox();
+            // If we came from demo mode, also sync the background demo slider
+            if (lbMode === 'demo') {
+                demoIdx = lbIdx;
+                const ca = document.getElementById('content-area');
+                const p = MISSIONS[activeProject];
+                renderDemo(ca, p);
+            }
         }
 
         function closeLightbox() {
             const lb = document.getElementById('lightbox');
-            if (lb) lb.classList.remove('active');
+            // Stop video on close
+            const vid = document.getElementById('lightbox-media').querySelector('video');
+            if (vid) { vid.pause(); vid.src = ''; }
+            lb.classList.remove('active');
         }
 
+        // Click outside media to close
         document.getElementById('lightbox').addEventListener('click', e => {
-            if (e.target !== document.getElementById('lightbox-img')) closeLightbox();
+            const mediaEl = document.getElementById('lightbox-media');
+            if (!mediaEl.contains(e.target) &&
+                e.target.id !== 'lb-prev' && e.target.id !== 'lb-next' &&
+                e.target.id !== 'lightbox-close') {
+                closeLightbox();
+            }
         });
         document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+        document.getElementById('lb-prev').addEventListener('click', () => lbNavigate(-1));
+        document.getElementById('lb-next').addEventListener('click', () => lbNavigate(1));
 
         /* BUILD NAV BAR — top right, like game control hints */
         function buildNav() {
@@ -1242,10 +1429,18 @@
             });
             // keyboard shortcuts
             document.addEventListener('keydown', e => {
-                if (e.key === 'Escape') closeLightbox();
+                const lb = document.getElementById('lightbox');
+                const lbActive = lb.classList.contains('active');
+                if (e.key === 'Escape') { closeLightbox(); return; }
+                // Arrow navigation inside lightbox
+                if (lbActive) {
+                    if (e.key === 'ArrowLeft') { e.preventDefault(); lbNavigate(-1); return; }
+                    if (e.key === 'ArrowRight') { e.preventDefault(); lbNavigate(1); return; }
+                    return; // swallow other keys while lightbox is open
+                }
                 const k = e.key.toUpperCase();
                 const match = pages.find(p => p.key === k && p.href !== currentPage);
-                if (match && !document.getElementById('lightbox').classList.contains('active')) location.href = match.href;
+                if (match) location.href = match.href;
             });
         }
 
