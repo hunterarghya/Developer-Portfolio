@@ -509,6 +509,87 @@
             }
         }
 
+        /* NAV BAR — top right like game controls */
+        #nav-bar {
+            position: fixed;
+            top: 36px;
+            right: 32px;
+            display: flex;
+            gap: 12px;
+            z-index: 60;
+        }
+
+        .nav-btn {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            color: var(--c8);
+            letter-spacing: 2px;
+            padding: 6px 14px;
+            border: 1px solid var(--c4);
+            background: rgba(0, 0, 0, .7);
+            cursor: pointer;
+            transition: all .15s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            color: var(--glow);
+            border-color: var(--glow);
+            background: rgba(0, 26, 10, .7);
+        }
+
+        .nav-btn.active {
+            color: var(--glow);
+            border-color: var(--glow);
+            background: rgba(0, 26, 10, .5);
+            box-shadow: 0 0 8px rgba(0, 255, 153, 0.15);
+            pointer-events: none;
+        }
+
+        .nav-btn.active .nav-key {
+            color: var(--glow);
+            background: rgba(0, 255, 153, 0.15);
+        }
+
+        .nav-key {
+            font-family: 'VT323', monospace;
+            font-size: 12px;
+            color: var(--c9);
+            background: var(--c4);
+            padding: 2px 6px;
+            letter-spacing: 1px;
+        }
+
+            #page-id {
+                position: fixed;
+                top: 8px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 80;
+            }
+
+            #mobile-road {
+                padding-top: 85px;
+            }
+
+            #nav-bar {
+                position: fixed;
+                top: 32px;
+                left: 8px;
+                right: 8px;
+                gap: 6px;
+                flex-wrap: wrap;
+                justify-content: center;
+                z-index: 70;
+            }
+            .nav-btn {
+                padding: 4px 8px;
+                font-size: 9px;
+            }
+        }
+
         @media(max-width:480px) {
             #dial-wrap {
                 width: 200px;
@@ -584,6 +665,9 @@
             <div class="wheel-nav"><button id="nav-prev">◀</button><button id="nav-next">▶</button></div>
         </div>
     </div>
+    <!-- NAV BAR -->
+    <div id="nav-bar"></div>
+
     <div id="overlay">
         <div id="ov-title">SECTION</div>
         <div id="ov-sub">[ COMING SOON ]</div>
@@ -801,6 +885,44 @@
             const s = SEC[cur_]; if (s === 'STORYLINE') return; if (s === 'HOME') { location.href = 'index.html'; return } if (s === 'ARSENAL') { location.href = 'skills.html'; return } if (s === 'LORE') { location.href = 'about.html'; return } if (s === 'MISSIONS') { location.href = 'projects.html'; return }
             document.getElementById('ov-title').textContent = s; document.getElementById('ov-sub').textContent = '[ ' + s + ' — COMING SOON ]'; document.getElementById('overlay').classList.add('vis')
         }
+        /* BUILD NAV BAR — top right like game control hints */
+        function buildNav() {
+            const nb = document.getElementById('nav-bar'); if (!nb) return; nb.innerHTML = '';
+            const currentPage = 'experience.html';
+            const pages = [
+                { key: 'H', label: 'Home', href: 'index.html' },
+                { key: 'M', label: 'Missions', href: 'projects.html' },
+                { key: 'A', label: 'Arsenal', href: 'skills.html' },
+                { key: 'S', label: 'Storyline', href: 'experience.html' },
+                { key: 'L', label: 'Lore', href: 'about.html' }
+            ];
+            pages.forEach(p => {
+                const b = document.createElement('div');
+                b.className = 'nav-btn' + (p.href === currentPage ? ' active' : '');
+                b.innerHTML = '<span class="nav-key">' + p.key + '</span> ' + p.label;
+                if (p.href !== currentPage) b.addEventListener('click', () => location.href = p.href);
+                nb.appendChild(b);
+            });
+            document.addEventListener('keydown', e => {
+                const k = e.key.toUpperCase();
+                const match = pages.find(p => p.key === k && p.href !== currentPage);
+                if (match) location.href = match.href;
+            });
+        }
+        buildNav();
+
+        /* DYNAMIC EXPERIENCE LOAD WITH FALLBACK */
+        fetch('data/experience.json')
+            .then(r => r.ok ? r.json() : null)
+            .then(data => {
+                if (Array.isArray(data) && data.length) {
+                    EXP_DATA.length = 0;
+                    data.forEach(item => EXP_DATA.push(item));
+                    renderRoad();
+                }
+            })
+            .catch(() => {});
+
         document.getElementById('nav-prev').addEventListener('click', e => { e.stopPropagation(); stepWheel(-1) });
         document.getElementById('nav-next').addEventListener('click', e => { e.stopPropagation(); stepWheel(1) });
         let tx = 0, ty = 0;

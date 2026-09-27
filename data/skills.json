@@ -1,0 +1,166 @@
+{
+  "groups": [
+    {
+      "name": "Languages",
+      "position": "top-left",
+      "skills": [
+        {
+          "name": "Python",
+          "slug": "python"
+        },
+        {
+          "name": "TypeScript",
+          "slug": "typescript"
+        },
+        {
+          "name": "JavaScript",
+          "slug": "javascript"
+        },
+        {
+          "name": "Go",
+          "slug": "go"
+        },
+        {
+          "name": "Java",
+          "slug": "openjdk"
+        },
+        {
+          "name": "SQL",
+          "slug": "postgresql"
+        },
+        {
+          "name": "Bash",
+          "slug": "gnubash"
+        }
+      ]
+    },
+    {
+      "name": "Backend",
+      "position": "top-right",
+      "skills": [
+        {
+          "name": "FastAPI",
+          "slug": "fastapi"
+        },
+        {
+          "name": "Django",
+          "slug": "django"
+        },
+        {
+          "name": "Node.js",
+          "slug": "nodedotjs"
+        },
+        {
+          "name": "Go (Chi)",
+          "slug": "go"
+        },
+        {
+          "name": "WebSockets",
+          "slug": "socketdotio"
+        },
+        {
+          "name": "RabbitMQ",
+          "slug": "rabbitmq"
+        }
+      ]
+    },
+    {
+      "name": "AI / Automation",
+      "position": "left",
+      "skills": [
+        {
+          "name": "CrewAI",
+          "slug": "crewai"
+        },
+        {
+          "name": "LangChain",
+          "slug": "langchain"
+        },
+        {
+          "name": "Vercel AI",
+          "slug": "vercel"
+        },
+        {
+          "name": "n8n",
+          "slug": "n8n"
+        },
+        {
+          "name": "RAG",
+          "slug": "openai"
+        },
+        {
+          "name": "Prompt Eng.",
+          "slug": "openai"
+        }
+      ]
+    },
+    {
+      "name": "Databases & Storage",
+      "position": "right",
+      "skills": [
+        {
+          "name": "PostgreSQL",
+          "slug": "postgresql"
+        },
+        {
+          "name": "MongoDB",
+          "slug": "mongodb"
+        },
+        {
+          "name": "Redis",
+          "slug": "redis"
+        },
+        {
+          "name": "Qdrant",
+          "slug": "qdrant"
+        },
+        {
+          "name": "ChromaDB",
+          "slug": "chroma"
+        }
+      ]
+    },
+    {
+      "name": "DevOps & Infra",
+      "position": "bottom",
+      "skills": [
+        {
+          "name": "Docker",
+          "slug": "docker"
+        },
+        {
+          "name": "AWS",
+          "slug": "amazonwebservices"
+        },
+        {
+          "name": "Caddy",
+          "slug": "caddy"
+        },
+        {
+          "name": "Nginx",
+          "slug": "nginx"
+        },
+        {
+          "name": "GitHub Actions",
+          "slug": "githubactions"
+        },
+        {
+          "name": "Argo CD",
+          "slug": "argo"
+        },
+        {
+          "name": "Prometheus",
+          "slug": "prometheus"
+        },
+        {
+          "name": "Grafana",
+          "slug": "grafana"
+        },
+        {
+          "name": "Uptime Kuma",
+          "slug": "uptimekuma"
+        }
+      ]
+    }
+  ]
+}
