@@ -1,0 +1,27 @@
+[
+  {
+    "company": "Ripplewalk Pvt Ltd",
+    "role": "Applied AI Engineer",
+    "duration": "Apr 2026 — Present",
+    "current": true,
+    "side": "out"
+  },
+  {
+    "company": "Freelancing",
+    "role": "Built Web Applications for Local Businesses",
+    "duration": "",
+    "side": "out"
+  },
+  {
+    "company": "Techno Polytechnic Durgapur",
+    "role": "Lecturer",
+    "duration": "Jul 2025 — Sep 2025",
+    "side": "out"
+  },
+  {
+    "company": "Cooch Behar Government Engineering College",
+    "role": "BTech, Computer Science and Engineering",
+    "duration": "2021 - 2025",
+    "side": "out"
+  }
+]

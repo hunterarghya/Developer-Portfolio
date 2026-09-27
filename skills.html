@@ -214,13 +214,15 @@
         }
 
         .cluster-name {
-            font-size: 9px;
+            font-size: 11px;
             letter-spacing: 3px;
-            color: var(--c8);
+            color: var(--glow);
+            text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
             margin-bottom: 8px;
             text-align: center;
-            border-bottom: 1px solid var(--c4);
+            border-bottom: 1px solid var(--c5);
             padding-bottom: 5px;
+            font-weight: bold;
         }
 
         .cluster-icons {
@@ -228,7 +230,11 @@
             flex-wrap: wrap;
             gap: 8px;
             justify-content: center;
-            max-width: 220px;
+            max-width: 230px;
+        }
+
+        .cluster.bottom-cluster .cluster-icons {
+            max-width: 580px;
         }
 
         .skill-tile {
@@ -239,14 +245,17 @@
             width: 54px;
             padding: 8px 4px;
             border: 1px solid var(--c4);
-            background: rgba(0, 10, 0, 0.7);
-            transition: border-color .2s, background .2s;
+            background: rgba(0, 15, 8, 0.75);
+            border-radius: 2px;
+            transition: border-color .2s, background .2s, transform .2s;
             cursor: default;
         }
 
         .skill-tile:hover {
             border-color: var(--glow);
-            background: rgba(0, 26, 10, 0.85);
+            background: rgba(0, 30, 15, 0.9);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+            transform: translateY(-2px);
         }
 
         .skill-tile img {
@@ -255,14 +264,14 @@
             object-fit: contain;
             /* all icons rendered green */
             filter: invert(1) sepia(1) saturate(3) hue-rotate(90deg) brightness(1.1);
-            opacity: 0.85;
+            opacity: 0.9;
             transition: opacity .2s;
         }
 
         /* white-brand icons (postgres, mongo, redis etc) override the green filter */
         .skill-tile img.brand-white {
             filter: invert(1) brightness(1.5);
-            opacity: 0.9;
+            opacity: 0.95;
         }
 
         .skill-tile:hover img {
@@ -270,8 +279,8 @@
         }
 
         .skill-name {
-            font-size: 7px;
-            color: var(--c8);
+            font-size: 8px;
+            color: #b0f0d0;
             letter-spacing: 1px;
             text-align: center;
             line-height: 1.2;
@@ -279,6 +288,7 @@
 
         .skill-tile:hover .skill-name {
             color: var(--glow);
+            text-shadow: 0 0 6px var(--glow);
         }
 
         /* connector line from cluster to dial center — drawn on SVG layer */
@@ -450,13 +460,13 @@
             }
 
             #page-id {
-                position: relative;
-                top: auto;
-                left: auto;
-                transform: none;
+                position: fixed;
+                top: 8px;
+                left: 50%;
+                transform: translateX(-50%);
                 text-align: center;
-                padding: 18px 0 10px;
-                z-index: 60;
+                padding: 0;
+                z-index: 80;
             }
 
             /* Clusters: switch to normal flow */
@@ -467,8 +477,8 @@
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 24px;
-                padding: 10px 16px 30px;
+                gap: 20px;
+                padding: 85px 16px 30px;
                 z-index: 15;
             }
 
@@ -523,6 +533,76 @@
 
             #ov-sub {
                 font-size: 10px;
+            }
+        }
+
+        /* NAV BAR — top right like game controls */
+        #nav-bar {
+            position: fixed;
+            top: 18px;
+            right: 24px;
+            display: flex;
+            gap: 12px;
+            z-index: 60;
+        }
+
+        .nav-btn {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            color: var(--c8);
+            letter-spacing: 2px;
+            padding: 6px 14px;
+            border: 1px solid var(--c4);
+            background: rgba(0, 0, 0, .7);
+            cursor: pointer;
+            transition: all .15s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            color: var(--glow);
+            border-color: var(--glow);
+            background: rgba(0, 26, 10, .7);
+        }
+
+        .nav-btn.active {
+            color: var(--glow);
+            border-color: var(--glow);
+            background: rgba(0, 26, 10, .5);
+            box-shadow: 0 0 8px rgba(0, 255, 153, 0.15);
+            pointer-events: none;
+        }
+
+        .nav-btn.active .nav-key {
+            color: var(--glow);
+            background: rgba(0, 255, 153, 0.15);
+        }
+
+        .nav-key {
+            font-family: 'VT323', monospace;
+            font-size: 12px;
+            color: var(--c9);
+            background: var(--c4);
+            padding: 2px 6px;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            #nav-bar {
+                position: fixed;
+                top: 32px;
+                left: 8px;
+                right: 8px;
+                gap: 6px;
+                flex-wrap: wrap;
+                justify-content: center;
+                z-index: 70;
+            }
+            .nav-btn {
+                padding: 4px 8px;
+                font-size: 9px;
             }
         }
 
@@ -617,6 +697,9 @@
 
         </div>
     </div>
+
+    <!-- NAV BAR -->
+    <div id="nav-bar"></div>
 
     <!-- SECTION OVERLAY -->
     <div id="overlay">
@@ -864,11 +947,11 @@
             // returns {top,left,right,bottom,transform} in CSS
             // positions are chosen to leave the 300px center dial clear
             const positions = {
-                'top-left': { top: '8vh', left: '3vw' },
-                'top-right': { top: '8vh', right: '3vw' },
+                'top-left': { top: '88px', left: '3vw' },
+                'top-right': { top: '88px', right: '3vw' },
                 'left': { top: '50%', left: '2vw', transform: 'translateY(-50%)' },
                 'right': { top: '50%', right: '2vw', transform: 'translateY(-50%)' },
-                'bottom': { bottom: '6vh', left: '50%', transform: 'translateX(-50%)' },
+                'bottom': { bottom: '2.5vh', left: '50%', transform: 'translateX(-50%)' },
             };
             return positions[pos] || { top: '10vh', left: '10vw' };
         }
@@ -881,7 +964,7 @@
                 const pos = getPosition(group.position);
 
                 const div = document.createElement('div');
-                div.className = 'cluster';
+                div.className = 'cluster' + (group.position === 'bottom' ? ' bottom-cluster' : '');
                 div.style.animationDelay = (gi * 0.12) + 's';
 
                 // apply position styles
@@ -999,8 +1082,44 @@
             draw();
         })();
 
+        /* BUILD NAV BAR — top right like game control hints */
+        function buildNav() {
+            const nb = document.getElementById('nav-bar'); if (!nb) return; nb.innerHTML = '';
+            const currentPage = 'skills.html';
+            const pages = [
+                { key: 'H', label: 'Home', href: 'index.html' },
+                { key: 'M', label: 'Missions', href: 'projects.html' },
+                { key: 'A', label: 'Arsenal', href: 'skills.html' },
+                { key: 'S', label: 'Storyline', href: 'experience.html' },
+                { key: 'L', label: 'Lore', href: 'about.html' }
+            ];
+            pages.forEach(p => {
+                const b = document.createElement('div');
+                b.className = 'nav-btn' + (p.href === currentPage ? ' active' : '');
+                b.innerHTML = '<span class="nav-key">' + p.key + '</span> ' + p.label;
+                if (p.href !== currentPage) b.addEventListener('click', () => location.href = p.href);
+                nb.appendChild(b);
+            });
+            document.addEventListener('keydown', e => {
+                const k = e.key.toUpperCase();
+                const match = pages.find(p => p.key === k && p.href !== currentPage);
+                if (match) location.href = match.href;
+            });
+        }
+
+        /* DYNAMIC SKILLS LOAD WITH FALLBACK */
+        fetch('data/skills.json')
+            .then(r => r.ok ? r.json() : null)
+            .then(data => {
+                if (data && Array.isArray(data.groups) && data.groups.length) {
+                    renderClusters(data.groups);
+                }
+            })
+            .catch(() => {});
+
         /* ── INIT ── */
         loadSkills();
+        buildNav();
     </script>
 </body>
 
